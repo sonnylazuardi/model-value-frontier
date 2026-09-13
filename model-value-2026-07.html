@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM performance vs price — September 2026</title>
+<style>
+  :root { --page: #f9f9f7; }
+  .viz-root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page-plane:     #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --grid:           #e1e0d9;
+    --axis:           #c3c2b7;
+    --border:         rgba(11,11,11,0.10);
+    --series-1:       #2a78d6;
+    --demote:         #898781;
+    --hover-wash:     rgba(11,11,11,0.04);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:where(:not([data-theme="light"])) { --page: #0d0d0d; }
+    :root:where(:not([data-theme="light"])) .viz-root {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page-plane:     #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --grid:           #2c2c2a;
+      --axis:           #383835;
+      --border:         rgba(255,255,255,0.10);
+      --series-1:       #3987e5;
+      --demote:         #898781;
+      --hover-wash:     rgba(255,255,255,0.06);
+    }
+  }
+  :root[data-theme="dark"] { --page: #0d0d0d; }
+  :root[data-theme="dark"] .viz-root {
+    color-scheme: dark;
+    --surface-1:      #1a1a19;
+    --page-plane:     #0d0d0d;
+    --text-primary:   #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted:     #898781;
+    --grid:           #2c2c2a;
+    --axis:           #383835;
+    --border:         rgba(255,255,255,0.10);
+    --series-1:       #3987e5;
+    --demote:         #898781;
+    --hover-wash:     rgba(255,255,255,0.06);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 32px 24px 64px;
+    background: var(--page);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .viz-root { max-width: 1040px; margin: 0 auto; color: var(--text-primary); }
+
+  header { margin-bottom: 28px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
+  h1 { font-size: 26px; font-weight: 600; margin: 0 0 8px; letter-spacing: -0.01em; }
+  .sub { color: var(--text-secondary); font-size: 14px; line-height: 1.55; margin: 0; max-width: 68ch; }
+  .theme-btn {
+    flex: none; font: inherit; font-size: 13px; padding: 7px 13px; cursor: pointer;
+    background: var(--surface-1); color: var(--text-secondary);
+    border: 1px solid var(--border); border-radius: 8px;
+  }
+  .theme-btn:hover { background: var(--hover-wash); }
+
+  .card {
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 14px; padding: 22px 24px 18px; margin-bottom: 22px;
+  }
+  h2 { font-size: 16px; font-weight: 600; margin: 0 0 4px; }
+  .cap { font-size: 13px; color: var(--text-secondary); margin: 0 0 18px; line-height: 1.5; max-width: 76ch; }
+
+  svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .tick { font-size: 11px; fill: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .axis-title { font-size: 11.5px; fill: var(--text-secondary); font-weight: 500; }
+  .pt-label { font-size: 11.5px; fill: var(--text-secondary); font-weight: 500; }
+  .pt-label.on { fill: var(--text-primary); font-weight: 600; }
+
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; margin: 14px 0 0; font-size: 12.5px; color: var(--text-secondary); }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .key { width: 11px; height: 11px; border-radius: 50%; flex: none; }
+  .key.line { width: 16px; height: 2px; border-radius: 1px; }
+
+  /* bar charts */
+  .rows { display: flex; flex-direction: column; gap: 9px; }
+  .row { display: grid; grid-template-columns: 132px 1fr 62px; align-items: center; gap: 12px; }
+  .row-name { font-size: 12.5px; color: var(--text-secondary); text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .track { height: 18px; position: relative; border-radius: 2px; }
+  .track:hover { background: var(--hover-wash); }
+  .bar { height: 18px; background: var(--series-1); border-radius: 0 4px 4px 0; }
+  .row-val { font-size: 12.5px; color: var(--text-primary); font-variant-numeric: tabular-nums; font-weight: 500; }
+
+  /* tooltip */
+  .tip {
+    position: fixed; pointer-events: none; opacity: 0; transition: opacity .1s;
+    background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 9px; padding: 10px 12px; font-size: 12px;
+    box-shadow: 0 6px 22px rgba(0,0,0,.16); z-index: 20; min-width: 168px;
+  }
+  .tip.show { opacity: 1; }
+  .tip-h { display: flex; align-items: center; gap: 7px; font-weight: 600; color: var(--text-primary); margin-bottom: 7px; font-size: 12.5px; }
+  .tip-r { display: flex; justify-content: space-between; gap: 20px; line-height: 1.75; }
+  .tip-r b { font-weight: 600; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+  .tip-r span { color: var(--text-secondary); }
+
+  /* table */
+  details { margin-top: 6px; }
+  summary { cursor: pointer; font-size: 13px; color: var(--text-secondary); padding: 6px 0; }
+  summary:hover { color: var(--text-primary); }
+  table { border-collapse: collapse; width: 100%; margin-top: 14px; font-size: 12.5px; }
+  th, td { text-align: right; padding: 8px 10px; border-bottom: 1px solid var(--grid); font-variant-numeric: tabular-nums; }
+  th:first-child, td:first-child { text-align: left; font-variant-numeric: normal; }
+  th { color: var(--text-secondary); font-weight: 600; font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; }
+  td { color: var(--text-primary); }
+  tbody tr:hover { background: var(--hover-wash); }
+  .na { color: var(--text-muted); }
+
+  .note { font-size: 12.5px; color: var(--text-secondary); line-height: 1.65; }
+  .note b { color: var(--text-primary); font-weight: 600; }
+  .note ul { margin: 8px 0 0; padding-left: 18px; }
+  .note li { margin-bottom: 6px; }
+  a { color: inherit; }
+</style>
+</head>
+<body>
+<div class="viz-root">
+
+<header>
+  <div>
+    <h1>Which model is worth it — September 2026</h1>
+    <p class="sub">Thirty-one frontier models scored on the <b>Artificial Analysis Intelligence Index</b> against their blended API price. The Index is the anchor because it's the only capability score run the same way on every model here — vendor-published benchmarks disagreed with each other too much to combine.</p>
+  </div>
+  <button class="theme-btn" id="themeBtn" type="button">Dark</button>
+</header>
+
+<div class="card">
+  <h2>Performance vs price</h2>
+  <p class="cap">Blended cost per 1M tokens (log scale) against Intelligence Index. Models on the <b>value frontier</b> are the ones where nothing cheaper is also smarter — everything gray is beaten on both counts by something on the line.</p>
+  <svg id="scatter" viewBox="0 0 960 520" role="img" aria-label="Scatter plot of Intelligence Index versus blended price per million tokens"></svg>
+  <div class="legend">
+    <span><i class="key" style="background:var(--series-1)"></i>On the value frontier</span>
+    <span><i class="key" style="background:var(--demote)"></i>Dominated — cheaper models match or beat it</span>
+    <span><i class="key line" style="background:var(--series-1)"></i>Value frontier</span>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Raw capability — Intelligence Index</h2>
+  <p class="cap">Ignoring cost entirely. The whole field spans 27 points, and the top five sit within 6 of each other.</p>
+  <div class="rows" id="barIndex"></div>
+</div>
+
+<div class="card">
+  <h2>Value — Index points per dollar</h2>
+  <p class="cap">Intelligence Index divided by blended price per 1M tokens. This is the same data as the chart above, read the other way round — and the ordering nearly inverts.</p>
+  <div class="rows" id="barValue"></div>
+</div>
+
+<div class="card">
+  <h2>All figures</h2>
+  <details open>
+    <summary>Full data table — every value in the charts, plus list prices</summary>
+    <table id="tbl">
+      <thead><tr>
+        <th>Model</th><th>Maker</th><th>AA Index</th><th>Blended $/1M</th>
+        <th>Input $/1M</th><th>Output $/1M</th><th>Pts per $</th><th>Arena Elo</th><th>Context</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </details>
+</div>
+
+<div class="card">
+  <h2>What to trust here</h2>
+  <div class="note">
+    <ul>
+      <li><b>Rebased to Intelligence Index v4.3 on 12 Sept 2026 — every score below is new.</b> AA launched <b>v4.3 on 7 Sept</b> (Terminal-Bench v4.0 and AutomationBench-AA in, τ³-Banking out; category weights unchanged). All 31 models were re-fetched from their live AA pages (4 parallel workers, every anomaly verified directly against its page); scores run <b>~4–8 points below v4.2</b> (Fable 5.1 57→53, Spark 1.3 52→45, Flash 41→35). Prices verified stable across the board — no hikes or cuts this round. Estimate tags now survive only on the <b>Agnes pair</b> (Beta 35, 3.0 Flash 36); QFN/GLMF/GLM-5.2 graduated to measured. New: <b>Agnes 3.0 Flash</b> plotted as the cheapest dot ever ($0.03 — x-axis floor widened $0.045→$0.02); y rescaled 30–60 → 24–56.</li>
+      <li><b>GLM-5.3 re-scores to 45 — and now dominates Kimi too.</b> v4.3 takes the 743B build from 49 to <b>45 at unchanged $1.40/$4.40 rates</b> — 11 over GLM-5.2 (34) at the same money. It dominates <b>Qwen 3.8 Max, Kimi K3, GPT-5.6 Terra, Grok 4.5, Claude Sonnet 5, Gemini 3.6 Flash and GLM-5.2</b>. It falls 2 short of GPT-5.6 Sol (47) — but Sol charges <b>3.4x more</b> ($3.08) for those points. Off the frontier: tied 45–45 with Muse Spark 1.3 at higher money ($0.90 vs $0.78).</li>
+      <li><b>Muse Spark 1.2 re-scores to 40 — buried deeper.</b> v4.3 puts 1.2 at <b>Index 40 vs 1.1's 34</b> — same money, six more points, so 1.1 stays dominated. But 1.3 posts 45 at the same $0.78, and Gemini 3.8 Flash beats it (41) at $0.58 — 1.2 wins neither comparison. Off the frontier.</li>
+      <li><b>Muse Spark 1.3 re-scores to 45 — and keeps its rung.</b> v4.3 takes xhigh from 52 to <b>45 at unchanged $0.78</b> — still 5 over 1.2 (40), still beating Grok 4.6 (44 at $1.35), but GPT-5.6 Sol (47 at $3.08) now outscores it from above. It keeps the $0.78 frontier rung (45 > GLM-5.3-Flash's 42). The limited-preview <b>max tier re-scores to 48</b> with no public pricing, so it stays unplotted. See <a href="https://artificialanalysis.ai/articles/muse-spark-1-3">AA's Muse Spark 1.3 analysis</a> and the <a href="https://artificialanalysis.ai/models/muse-spark-1-3-xhigh">xhigh model page</a>.</li>
+      <li><b>GLM-5.3-Flash re-scores to 42 — and retakes its rung.</b> v4.3 takes Z.ai's budget build from 46 to <b>42 at unchanged $0.15/$0.50</b> — 2 clear of Qwen 3.8 Flash Next (40) at a cent more. The 46-tie is gone; GLM-5.3-Flash is back on the frontier it used to anchor.</li>
+      <li><b>Ox Alpha is listed but unplottable — and would break the chart even with a score.</b> A <b>stealth model</b> that appeared on OpenRouter on 20 Aug 2026 from an <b>undisclosed provider</b>, free for both prompt and completion tokens, with a 1M context and strong developer-reported coding results. Two separate blockers: Artificial Analysis has no entry, so there is no Index; and its price is <b>$0</b>, which has no position on a logarithmic cost axis and would yield infinite points per dollar. More importantly, <b>free is a preview subsidy, not a rate</b> — stealth previews historically either graduate to a named model with real list pricing or vanish. Charting it at $0 would imply a permanent economics that nobody has offered.</li>
+      <li><b>Qwen 3.8 Max re-scores to 40 — still dominated.</b> v4.3 takes it from 47 to <b>40 at unchanged $2.00/$6.00</b>. GLM-5.3 scores 5 points higher at $0.90, so despite a real price it never reaches the frontier.</li>
+      <li><b>Two names in the list aren't real model tiers.</b> There is no separate "GLM-5.2 Max" model (the API string is <code>glm-5.2</code>; "max" is a reasoning-effort setting), and neither GPT-5.6 Sol's "max" nor Grok 4.5's "high" is a pricing tier — both cost the same per token at any effort level.</li>
+      <li><b>Effort tiers aren't matched across models.</b> AA's default page for each model uses whatever tier it lists as canonical (max, xhigh, high). Cross-model comparison is imperfect for exactly this reason. Only the Agnes pair still carries AA's estimate tag — everything else is now independently evaluated.</li>
+      <li><b>Prices are AA's blended rate</b> (weighted across cached input, input, and output), taken from each model's AA page. AA's aggregate leaderboard page reports materially different blends — the per-model pages are the ones that reconcile with published input/output rates.</li>
+      <li><b>Claude Sonnet 5's price never rose — and v4.3 re-scores it to 38.</b> The $2/$10 rate was slated to go to $3/$15 on 1 Sept 2026, but AA still lists <b>$2/$10 ($1.54 blended)</b>. Don't assume the higher rate until AA's per-model page shows it.</li>
+      <li><b>Vendor benchmarks were unusable for scoring.</b> Sonnet 5's SWE-bench Verified is reported as both 72.7% and 85.2% depending on source; most labs have stopped publishing SWE-bench Verified, AIME, and LiveCodeBench altogether in favour of agentic evals. That's why none of them drive the ranking.</li>
+      <li><b>Grok 4.6 v4.3: 44 at $1.35, off the frontier — Sol passes it.</b> Re-scored from 51 (identical $2/$6 rates, 5 points over Grok 4.5's 39). The old domination inverted: <b>GPT-5.6 Sol (47) now beats Grok at higher money</b>, and Muse Spark 1.3 (45) beats it cheaper. It does not reach Claude Fable 5 (50) or Claude Opus 5 (51).</li>
+      <li><b>Claude Fable 5.1 still tops the chart at 53.</b> v4.3 re-scores the 1 Sept release from 57 to <b>53 at unchanged $10/$50 rates</b> — 2 clear of Opus 5 (51) and still the frontier's top rung. It dominates its predecessor outright: Fable 5 (50) trails by <b>3 points at higher money</b> ($7.17 vs $7.70). GPT-6 Astra ties 53 at $7.70 — the cheaper $7.17 keeps the rung. The question stands: Spark 1.3 vs Sol vs Opus for value at 45+, and whether Fable 5.1's premium over Opus 5 is worth a 86% price increase.</li>
+      <li><b>Seven models carry the frontier under v4.3.</b> <b>Agnes 3.0 Flash ($0.03, 36-est)</b> opens as the cheapest dot ever plotted; <b>Qwen 3.8 Flash Next ($0.09, 40)</b> takes the next rung; <b>GLM-5.3-Flash ($0.10, 42)</b> retakes its rung 2 points clear; <b>Muse Spark 1.3 ($0.78, 45)</b> holds the upper-middle; <b>GPT-5.6 Sol ($3.08, 47) returns — first frontier appearance ever</b>; then <b>Claude Opus 5 ($3.85, 51)</b> and <b>Claude Fable 5.1 ($7.17, 53)</b> close it. The other twenty-four are dominated — including <b>Gemini 3.8 Flash</b> (41 < 42), <b>GLM-5.3</b> (45-tie lost on price), <b>Grok 4.6</b> (44 < 45), <b>GPT-6 Astra</b> (53-tie lost on price) and <b>Agnes Beta</b> (35).</li>
+      <li><b>GPT-6 Astra re-scores to 53 — tied at the top, rung lost on price.</b> v4.3 takes Astra from 55 to <b>53 at unchanged $10/$50</b> (6.9 pts/$) — dead even with Fable 5.1 (53) at higher money ($7.70 vs $7.17), so the top rung stays Anthropic's. Still above Opus (51). Fable 5 (50 at $7.70, 6.5 pts/$) keeps the wooden spoon.</li>
+      <li><b>Gemini 3.7 Flash re-scores to 39 — still dominated by its successor.</b> v4.3 takes 3.7 from 45 to <b>39 at unchanged $0.58</b>; 3.8 sits 2 points above (41) at the exact price. 3.7 still beats its predecessor 3.6 (34) — now on price too, since Google cut 3.6 to the same $0.75/$3.75 list rates (3.7's better cache discount keeps its blend lower: $0.58 vs $0.63). It dominates <b>Grok 4.5 (39 — same Index, cheaper wins), Claude Sonnet 5, Muse Spark 1.1 and GLM-5.2</b> — but no longer Terra (42), which now outscores it.</li>
+      <li><b>Gemini 3.8 Flash re-scores to 41 — and falls off.</b> v4.3 takes Google's replacement from 47 to <b>41 at unchanged $0.58</b> — still 2 over 3.7 (39) at the exact rates, but GLM-5.3-Flash (42) is now cheaper AND smarter. Google loses its rung.</li>
+      <li><b>Scores move — v4.3 moved them again, second rebase in a week.</b> This chart now runs on <b>Index v4.3 throughout</b>; do not compare any figure here against the August snapshots (v4.1.1) or the 5-Sept snapshot (v4.2). Treat every number as a snapshot of the live pages, re-verified 12 Sept 2026.</li>
+      <li><b>DeepSeek V4.1 Flash holds at 40 — directly verified.</b> Re-fetched 12 Sept: still <b>40 at $0.30/$1.20 ($0.18 blended)</b>, still the charted Flash row. At 40 it ties Qwen 3.8 Flash Next and Spark 1.2 at higher money — dominated grey. Heads-up: <b>Monday 12:00 Beijing Time (14 Sept)</b> DeepSeek routes <code>deepseek-v4-pro</code> to V4.1 Flash — the charted Pro 0813 row will need the same succession treatment then.</li>
+      <li><b>Watch out for wrong GPT-5.6 pricing online — and Sol is back on the frontier.</b> Several pricing blogs list Luna at $1/$6 and Terra at $2.50/$15 per 1M. OpenAI's own API docs say <b>$0.20/$1.20 (Luna)</b> and <b>$2/$12 (Terra)</b> — a 5x error on Luna. AA's Sol cut to <b>$4/$20 ($3.08)</b> plus its v4.3 score of 47 returns it to the frontier — first appearance ever. The official rates are used here, and Artificial Analysis agrees with them.</li>
+      <li><b>Sol, Terra and Luna are three models, not three price tiers of one.</b> They post different Index scores (47 / 42 / 38) — and Sol is now ON the frontier (47 > Spark 1.3's 45 at $3.08), while Terra and Luna are beaten by cheaper, smarter models.</li>
+      <li><b>Ties are broken on price — and on score.</b> Astra and Fable 5.1 tie at 53 — the cheaper ($7.17 vs $7.70) keeps the top rung. Grok 4.6 and Kimi tie at 44 — $1.35 beats $2.31. Flash and Flash Vision tie at 35 @ $0.23 — stable order keeps both grey. Spark 1.2, Qwen 3.8 Max and V4.1 Flash tie at 40 — $0.78 / $1.18 / $0.18, all dominated. The sorter (<code>a.blend - b.blend || b.idx - a.idx</code>) encodes both rules; without the second term a weaker model can land on the line.</li>
+      <li><b>DeepSeek V4 Pro 0813 re-scores to 36 — and Monday it migrates.</b> v4.3 takes Pro from 42 to <b>36 at unchanged $1.32/$3.96</b> — trailing Spark 1.3 (45) by 9 at nearly the same money. From Monday 12:00 Beijing the endpoint serves V4.1 Flash; expect this row to become V4.1 Pro-or-Flash succession next check.</li>
+      <li><b>Read DeepSeek's price table by column — prices verified again 12 Sept.</b> DeepSeek's first column is <i>input on a cache hit</i>, not the standard input rate — misreading it once understated V4 Pro's cost ~120x. AA still lists <b>Flash-class at $0.30–$0.44 in / $1.20–$1.32 out and Pro 0813 at $1.32/$3.96</b> "based on DeepSeek's API". The blended figures here track AA's current pages; if DeepSeek restores promo rates, the rows move left.</li>
+      <li><b>Fast mode is a separate rate.</b> Opus 5 in fast mode bills at $10/$50 per 1M — the same as Fable 5's standard rate, and not what's charted here.</li>
+      <li><b>Qwen3.8-Flash-Next re-scores to 40 — estimate lifted, rung kept.</b> v4.3 takes it from 46-est to <b>40 measured</b> at unchanged $0.09 — still the $0.09 rung (40 > Agnes 3.0 Flash's 36). <a href="https://agnes-ai.com/">Agnes 2.5 Pro Beta</a> re-scores 40→<b>35 (still estimate) at $0.06</b> — dominated, and now beaten by its own sibling 3.0 Flash on both axes.</li>
+      <li><b>Agnes 3.0 Flash opens the chart at $0.03.</b> Sapiens' new budget build scored 11 Sept at <b>36 (AA estimate) for $0.05/$0.15 ($0.03 blended, 1M ctx, 237 t/s)</b> — the cheapest dot ever plotted, forcing the x-axis floor wider ($0.045 → $0.02). It takes the opening rung (36 > nothing cheaper exists) at a staggering <b>1200 points per dollar</b>. If the independent eval moves the estimate, the bottom of the frontier moves with it.</li>
+    </ul>
+    <p style="margin-top:14px">Sources: Artificial Analysis per-model pages (<b>Intelligence Index v4.3 throughout</b>) · arena.ai text leaderboard · vendor pricing docs (platform.claude.com, developers.openai.com, docs.x.ai, docs.z.ai, ai.meta.com, deepmind.google, minimax.io, openrouter.ai) · vendor blogs <a href="https://z.ai/blog/glm-5.3-flash">z.ai/blog/glm-5.3-flash</a> &amp; <a href="https://qwen.ai/blog?id=qwen3.8-flash-next">qwen.ai/blog?qwen3.8-flash-next</a> (pricing, not Index). Data as of 12 September 2026.</p>
+  </div>
+</div>
+
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+</div>
+
+<script>
+const DATA = [
+  { name:"Grok 4.6",           maker:"xAI",       idx:44, blend:1.35, inp:2,    out:6,    elo:null, ctx:"500K", dx:0,  dy:-15, anc:"middle" },
+  { name:"Claude Opus 5",      maker:"Anthropic", idx:51, blend:3.85, inp:5,    out:25,   elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
+  { name:"Claude Fable 5.1",   maker:"Anthropic", idx:53, blend:7.17, inp:10,   out:50,   elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
+  { name:"Claude Fable 5",     maker:"Anthropic", idx:50, blend:7.70, inp:10,   out:50,   elo:1507, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
+  { name:"GLM-5.3",            maker:"Z.ai",      idx:45, blend:0.90, inp:1.40, out:4.40, elo:null, ctx:"1M",   dx:-12,dy:5,   anc:"end"    },
+  { name:"GPT-5.6 Sol",        maker:"OpenAI",    idx:47, blend:3.08, inp:4,    out:20,   elo:null, ctx:"1.05M",dx:0,  dy:-15, anc:"middle" },
+  { name:"GPT-6 Astra",        maker:"OpenAI",    idx:53, blend:7.70, inp:10,   out:50,   elo:null, ctx:"1M",   dx:-12,dy:5,   anc:"end"    },
+  { name:"Qwen 3.8 Max",       maker:"Alibaba",   idx:40, blend:1.18, inp:2,    out:6,    elo:null, ctx:"1M",   dx:12, dy:5,   anc:"start"  },
+  { name:"Kimi K3",            maker:"Moonshot",  idx:44, blend:2.31, inp:3,    out:15,   elo:1486, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
+  { name:"Muse Spark 1.3",     maker:"Meta",      idx:45, blend:0.78, inp:1.25, out:4.25, elo:null, ctx:"1M",   dx:12, dy:5,   anc:"start"  },
+  { name:"Muse Spark 1.2",     maker:"Meta",      idx:40, blend:0.78, inp:1.25, out:4.25, elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
+  { name:"Gemini 3.7 Flash",   maker:"Google",    idx:39, blend:0.58, inp:0.75, out:3.75, elo:null, ctx:"1M",   dx:-12,dy:5,   anc:"end"    },
+  { name:"Gemini 3.8 Flash",   maker:"Google",    idx:41, blend:0.58, inp:0.75, out:3.75, elo:null, ctx:"1M",   dx:12, dy:5,   anc:"start"  },
+  { name:"GPT-5.6 Terra",      maker:"OpenAI",    idx:42, blend:1.74, inp:2,    out:12,   elo:null, ctx:"1.05M",dx:12, dy:5,   anc:"start"  },
+  { name:"Grok 4.5",           maker:"xAI",       idx:39, blend:1.21, inp:2,    out:6,    elo:1468, ctx:"500K", dx:0,  dy:-15, anc:"middle" },
+  { name:"Claude Sonnet 5",    maker:"Anthropic", idx:38, blend:1.54, inp:2,    out:10,   elo:null, ctx:"1M",   dx:12, dy:5,   anc:"start"  },
+  { name:"GPT-5.6 Luna",       maker:"OpenAI",    idx:38, blend:0.17, inp:0.20, out:1.20, elo:null, ctx:"1.05M",dx:0,  dy:-15, anc:"middle" },
+  { name:"Muse Spark 1.1",     maker:"Meta",      idx:34, blend:0.78, inp:1.25, out:4.25, elo:1495, ctx:"1M",   dx:-12,dy:5,   anc:"end"    },
+  { name:"GLM-5.2",            maker:"Z.ai",      idx:34, blend:0.90, inp:1.40, out:4.40, elo:1469, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
+  { name:"DeepSeek V4.1 Flash", maker:"DeepSeek", idx:40, blend:0.18, inp:0.30, out:1.20, elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
+  { name:"GLM-5.3 Flash",      maker:"Z.ai",      idx:42, blend:0.10, inp:0.15, out:0.50, elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
+  { name:"Qwen 3.8 Flash Next",maker:"Alibaba",   idx:40, blend:0.09, inp:0.15, out:0.47, elo:null, ctx:"256K", dx:-12,dy:5,   anc:"end"    },
+  { name:"Qwen 3.8 27B",       maker:"Alibaba",   idx:34, blend:0.43, inp:0.50, out:3.00, elo:null, ctx:"256K", dx:0,  dy:-15, anc:"middle" },
+  { name:"DeepSeek V4 Flash Vision", maker:"DeepSeek", idx:35, blend:0.23, inp:0.44, out:1.32, elo:null, ctx:"1M", dx:12, dy:5, anc:"start" },
+  { name:"Gemini 3.6 Flash",   maker:"Google",    idx:34, blend:0.63, inp:0.75, out:3.75, elo:1485, ctx:"1M",   dx:10, dy:18,  anc:"start"  },
+  { name:"Agnes 2.5 Pro Beta", maker:"Sapiens AI",idx:35, blend:0.06, inp:0.10, out:0.30, elo:null, ctx:"1M",   dx:12, dy:5,   anc:"start"  },
+  { name:"Agnes 3.0 Flash",    maker:"Sapiens AI",idx:36, blend:0.03, inp:0.05, out:0.15, elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
+  { name:"DeepSeek V4 Pro 0813",maker:"DeepSeek", idx:36, blend:0.69, inp:1.32, out:3.96, elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
+  { name:"MiniMax M3",         maker:"MiniMax",   idx:30, blend:0.22, inp:0.30, out:1.20, elo:1444, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
+  { name:"MiMo-V2.5-Pro",      maker:"Xiaomi",    idx:26, blend:0.18, inp:0.435,out:0.87, elo:null, ctx:"1M",   dx:12, dy:5,   anc:"start"  },
+  { name:"Hunyuan 3 (Hy3)",    maker:"Tencent",   idx:26, blend:0.11, inp:0.14, out:0.55, elo:null, ctx:"256K", dx:0,  dy:-15, anc:"middle" },
+];
+DATA.forEach(d => d.ppd = d.idx / d.blend);
+
+// value frontier: ascending price, keep running max index
+const frontier = [];
+[...DATA].sort((a,b) => a.blend - b.blend || b.idx - a.idx).forEach(d => {
+  if (!frontier.length || d.idx > frontier[frontier.length-1].idx) frontier.push(d);
+});
+const onF = new Set(frontier.map(d => d.name));
+DATA.forEach(d => d.front = onF.has(d.name));
+
+const NS = "http://www.w3.org/2000/svg";
+const el = (t, a={}) => { const n = document.createElementNS(NS, t); for (const k in a) n.setAttribute(k, a[k]); return n; };
+const money = v => "$" + (Math.round(v * 100) / 100 === v ? v.toFixed(2) : v.toFixed(3));
+
+/* ---------- scatter ---------- */
+(function () {
+  const svg = document.getElementById("scatter");
+  const W = 960, H = 520, M = { t: 26, r: 40, b: 56, l: 62 };
+  const pw = W - M.l - M.r, ph = H - M.t - M.b;
+  const x0 = Math.log10(0.02), x1 = Math.log10(11);
+  const y0 = 24, y1 = 56;
+  const X = v => M.l + (Math.log10(v) - x0) / (x1 - x0) * pw;
+  const Y = v => M.t + ph - (v - y0) / (y1 - y0) * ph;
+
+  // gridlines + y ticks
+  for (let v = 25; v <= 55; v += 5) {
+    svg.appendChild(el("line", { x1: M.l, x2: M.l + pw, y1: Y(v), y2: Y(v), stroke: "var(--grid)", "stroke-width": 1 }));
+    const t = el("text", { x: M.l - 12, y: Y(v) + 4, "text-anchor": "end", class: "tick" });
+    t.textContent = v; svg.appendChild(t);
+  }
+  // x ticks
+  [0.025, 0.05, 0.1, 0.25, 0.5, 1, 2, 5, 10].forEach(v => {
+    svg.appendChild(el("line", { x1: X(v), x2: X(v), y1: M.t, y2: M.t + ph, stroke: "var(--grid)", "stroke-width": 1 }));
+    const t = el("text", { x: X(v), y: M.t + ph + 22, "text-anchor": "middle", class: "tick" });
+    t.textContent = v < 1 ? "$" + v : "$" + v; svg.appendChild(t);
+  });
+  // axis rules
+  svg.appendChild(el("line", { x1: M.l, x2: M.l + pw, y1: M.t + ph, y2: M.t + ph, stroke: "var(--axis)", "stroke-width": 1 }));
+
+  const xt = el("text", { x: M.l + pw / 2, y: M.t + ph + 46, "text-anchor": "middle", class: "axis-title" });
+  xt.textContent = "Blended price per 1M tokens  (log scale)"; svg.appendChild(xt);
+  const yt = el("text", { x: 16, y: M.t + ph / 2, "text-anchor": "middle", class: "axis-title",
+    transform: `rotate(-90 16 ${M.t + ph / 2})` });
+  yt.textContent = "Artificial Analysis Intelligence Index"; svg.appendChild(yt);
+
+  // frontier line
+  const pts = frontier.map(d => `${X(d.blend)},${Y(d.idx)}`).join(" ");
+  svg.appendChild(el("polyline", { points: pts, fill: "none", stroke: "var(--series-1)",
+    "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round", opacity: .38 }));
+
+  // marks
+  DATA.forEach(d => {
+    const cx = X(d.blend), cy = Y(d.idx), c = d.front ? "var(--series-1)" : "var(--demote)";
+    svg.appendChild(el("circle", { cx, cy, r: 7.5, fill: "var(--surface-1)" }));      // 2px surface ring
+    svg.appendChild(el("circle", { cx, cy, r: 5.5, fill: c }));
+    const lb = el("text", { x: cx + d.dx, y: cy + d.dy, "text-anchor": d.anc,
+      class: "pt-label" + (d.front ? " on" : "") });
+    lb.textContent = d.name; svg.appendChild(lb);
+
+    const hit = el("circle", { cx, cy, r: 16, fill: "transparent", tabindex: "0", role: "img",
+      "aria-label": `${d.name}: index ${d.idx}, ${money(d.blend)} per 1M tokens` });
+    hit.style.cursor = "pointer";
+    const show = e => tipShow(e, d), hide = () => tipHide();
+    hit.addEventListener("pointerenter", show);
+    hit.addEventListener("pointermove", show);
+    hit.addEventListener("pointerleave", hide);
+    hit.addEventListener("focus", () => tipAt(cx, cy, d, svg));
+    hit.addEventListener("blur", hide);
+    svg.appendChild(hit);
+  });
+})();
+
+/* ---------- tooltip ---------- */
+const tip = document.getElementById("tip");
+function tipHTML(d) {
+  tip.replaceChildren();
+  const h = document.createElement("div"); h.className = "tip-h";
+  const k = document.createElement("i"); k.className = "key";
+  k.style.background = d.front ? "var(--series-1)" : "var(--demote)";
+  h.appendChild(k); h.appendChild(document.createTextNode(d.name));
+  tip.appendChild(h);
+  const rows = [
+    ["Intelligence Index", String(d.idx)],
+    ["Blended price", money(d.blend) + " /1M"],
+    ["Input / output", money(d.inp) + " / " + money(d.out)],
+    ["Points per $", d.ppd.toFixed(1)],
+    ["Maker", d.maker],
+  ];
+  if (d.elo) rows.push(["Arena Elo", String(d.elo)]);
+  rows.push([d.front ? "On value frontier" : "Dominated", ""]);
+  rows.forEach(([lab, val], i) => {
+    const r = document.createElement("div"); r.className = "tip-r";
+    if (i === rows.length - 1 && !val) {
+      const s = document.createElement("span");
+      s.textContent = lab; s.style.color = d.front ? "var(--series-1)" : "var(--text-muted)";
+      s.style.fontWeight = "600"; r.appendChild(s);
+    } else {
+      const b = document.createElement("b"); b.textContent = val;
+      const s = document.createElement("span"); s.textContent = lab;
+      r.appendChild(s); r.appendChild(b);
+    }
+    tip.appendChild(r);
+  });
+}
+function place(px, py) {
+  tip.classList.add("show");
+  const r = tip.getBoundingClientRect();
+  let l = px + 16, t = py - r.height / 2;
+  if (l + r.width > innerWidth - 10) l = px - r.width - 16;
+  t = Math.max(10, Math.min(t, innerHeight - r.height - 10));
+  tip.style.left = l + "px"; tip.style.top = t + "px";
+}
+function tipShow(e, d) { tipHTML(d); place(e.clientX, e.clientY); }
+function tipAt(cx, cy, d, svg) {
+  tipHTML(d);
+  const b = svg.getBoundingClientRect(), vb = svg.viewBox.baseVal;
+  place(b.left + cx / vb.width * b.width, b.top + cy / vb.height * b.height);
+}
+function tipHide() { tip.classList.remove("show"); }
+
+/* ---------- bars ---------- */
+function bars(mount, rows, fmt) {
+  const max = Math.max(...rows.map(r => r.v));
+  const host = document.getElementById(mount);
+  rows.forEach(r => {
+    const row = document.createElement("div"); row.className = "row";
+    const n = document.createElement("div"); n.className = "row-name"; n.textContent = r.d.name;
+    const track = document.createElement("div"); track.className = "track";
+    const bar = document.createElement("div"); bar.className = "bar";
+    bar.style.width = Math.max(2, r.v / max * 100) + "%";
+    track.appendChild(bar);
+    const v = document.createElement("div"); v.className = "row-val"; v.textContent = fmt(r.v);
+    row.append(n, track, v);
+    track.tabIndex = 0;
+    const show = e => tipShow(e, r.d);
+    track.addEventListener("pointerenter", show);
+    track.addEventListener("pointermove", show);
+    track.addEventListener("pointerleave", tipHide);
+    track.addEventListener("focus", () => {
+      const b = track.getBoundingClientRect(); tipHTML(r.d); place(b.right, b.top + b.height / 2);
+    });
+    track.addEventListener("blur", tipHide);
+    host.appendChild(row);
+  });
+}
+bars("barIndex", [...DATA].sort((a,b) => b.idx - a.idx).map(d => ({ d, v: d.idx })), v => v.toFixed(0));
+bars("barValue", [...DATA].sort((a,b) => b.ppd - a.ppd).map(d => ({ d, v: d.ppd })), v => v.toFixed(1));
+
+/* ---------- table ---------- */
+(function () {
+  const tb = document.querySelector("#tbl tbody");
+  [...DATA].sort((a,b) => b.idx - a.idx).forEach(d => {
+    const tr = document.createElement("tr");
+    const cells = [d.name, d.maker, d.idx, money(d.blend), money(d.inp), money(d.out), d.ppd.toFixed(1), d.elo ?? "—", d.ctx];
+    cells.forEach((c, i) => {
+      const td = document.createElement("td");
+      td.textContent = String(c);
+      if (c === "—") td.className = "na";
+      tr.appendChild(td);
+    });
+    tb.appendChild(tr);
+  });
+  [
+    { cells: ["Ox Alpha (stealth)", "undisclosed", "—", "Free*", "Free*", "Free*", "—", "—", "1M"],
+      title: "Stealth preview released 20 Aug 2026 — no Intelligence Index, and free preview pricing is not a real rate" },
+  ].forEach(row => {
+    const tr = document.createElement("tr");
+    row.cells.forEach(c => {
+      const td = document.createElement("td"); td.textContent = c;
+      if (c === "—") td.className = "na";
+      tr.appendChild(td);
+    });
+    tr.title = row.title;
+    tb.appendChild(tr);
+  });
+})();
+
+/* ---------- theme ---------- */
+(function () {
+  const btn = document.getElementById("themeBtn"), root = document.documentElement;
+  const dark = () => (root.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")) === "dark";
+  const sync = () => btn.textContent = dark() ? "Light" : "Dark";
+  btn.addEventListener("click", () => { root.dataset.theme = dark() ? "light" : "dark"; sync(); });
+  sync();
+})();
+</script>
+</body>
+</html>
