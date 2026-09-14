@@ -59,6 +59,8 @@
     background: var(--page);
     font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    overflow-x: clip;
   }
   .viz-root { max-width: 1040px; margin: 0 auto; color: var(--text-primary); }
 
@@ -116,9 +118,10 @@
   details { margin-top: 6px; }
   summary { cursor: pointer; font-size: 13px; color: var(--text-secondary); padding: 6px 0; }
   summary:hover { color: var(--text-primary); }
-  table { border-collapse: collapse; width: 100%; margin-top: 14px; font-size: 12.5px; }
-  th, td { text-align: right; padding: 8px 10px; border-bottom: 1px solid var(--grid); font-variant-numeric: tabular-nums; }
-  th:first-child, td:first-child { text-align: left; font-variant-numeric: normal; }
+  .tbl-wrap { overflow-x: auto; margin-top: 14px; -webkit-overflow-scrolling: touch; }
+  table { border-collapse: collapse; width: 100%; min-width: 760px; font-size: 12.5px; }
+  th, td { text-align: right; padding: 8px 10px; border-bottom: 1px solid var(--grid); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; font-variant-numeric: normal; white-space: normal; min-width: 140px; }
   th { color: var(--text-secondary); font-weight: 600; font-size: 11.5px; text-transform: uppercase; letter-spacing: .04em; }
   td { color: var(--text-primary); }
   tbody tr:hover { background: var(--hover-wash); }
@@ -169,6 +172,7 @@
   <h2>All figures</h2>
   <details open>
     <summary>Full data table — every value in the charts, plus list prices</summary>
+    <div class="tbl-wrap">
     <table id="tbl">
       <thead><tr>
         <th>Model</th><th>Maker</th><th>AA Index</th><th>Blended $/1M</th>
@@ -176,6 +180,7 @@
       </tr></thead>
       <tbody></tbody>
     </table>
+    </div>
   </details>
 </div>
 
