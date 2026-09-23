@@ -140,7 +140,7 @@
 <header>
   <div>
     <h1>Which model is worth it — 2026</h1>
-    <p class="sub">Thirty-three frontier models scored on the <b>Artificial Analysis Intelligence Index</b> against their blended API price. The Index is the anchor because it's the only capability score run the same way on every model here — vendor-published benchmarks disagreed with each other too much to combine.</p>
+    <p class="sub">Thirty-four frontier models scored on the <b>Artificial Analysis Intelligence Index</b> against their blended API price. The Index is the anchor because it's the only capability score run the same way on every model here — vendor-published benchmarks disagreed with each other too much to combine.</p>
   </div>
   <button class="theme-btn" id="themeBtn" type="button">Dark</button>
 </header>
@@ -158,7 +158,7 @@
 
 <div class="card">
   <h2>Raw capability — Intelligence Index</h2>
-  <p class="cap">Ignoring cost entirely. The whole field spans 27 points, and the top five sit within 5 of each other.</p>
+  <p class="cap">Ignoring cost entirely. The whole field spans 32 points, and the top five sit within 8 of each other.</p>
   <div class="rows" id="barIndex"></div>
 </div>
 
@@ -203,12 +203,13 @@
       <li><b>Grok 4.6 v4.3: 44 at $1.35, off the frontier — Sol passes it.</b> Re-scored from 51 (identical $2/$6 rates, 5 points over Grok 4.5's 39). The old domination inverted: <b>GPT-5.6 Sol (47) now beats Grok at higher money</b>, and Muse Spark 1.3 max (48) beats it cheaper. It does not reach Claude Fable 5 (50) or Claude Opus 5 (51).</li>
       <li><b>Grok 4.7 plots at 46 — dominated, succeeds 4.6 at identical rates.</b> Released 21 Sept; AA's canonical xhigh page scores <b>46 at $2/$6 ($1.35 blended)</b> — same rates as 4.6, 2 points higher, so 4.6 is now dominated by its successor too (tie-break: equal price, higher Index wins). Muse Spark 1.3 max (48) still beats it cheaper — off the frontier. See the <a href="https://artificialanalysis.ai/models/grok-4-7">AA model page</a> and <a href="https://docs.x.ai/developers/grok-4-7">xAI's docs</a> ($2/$6 confirmed).</li>
       <li><b>MiMo-V2.6-Pro plots at 46 — new frontier rung at $0.18.</b> Released 21 Sept; AA scores <b>46 at $0.435/$0.87 ($0.18 blended, 99% cache discount)</b> — a 20-point jump over V2.5-Pro (26) at identical rates, so the old row is now dominated by its successor. It slots between GLM-5.3-Flash (42 at $0.10) and Spark 1.3 max (48 at $0.78): nothing cheaper scores higher. Cheapest 46 ever plotted, and the top open-weights score on the Index. See the <a href="https://artificialanalysis.ai/models/mimo-v2-6-pro">AA model page</a> and <a href="https://mimo.xiaomi.com/mimo-v2-6">Xiaomi's announcement</a>. Sibling V2.6-Flash has no AA entry yet — pending.</li>
-      <li><b>Claude Fable 5.1 still tops the chart at 53.</b> v4.3 re-scores the 1 Sept release from 57 to <b>53 at unchanged $10/$50 rates</b> — 2 clear of Opus 5 (51) and still the frontier's top rung. It dominates its predecessor outright: Fable 5 (50) trails by <b>3 points at higher money</b> ($7.17 vs $7.70). GPT-6 Astra ties 53 at $7.70 — the cheaper $7.17 keeps the rung. The question stands: Spark max vs Opus for value at 48+, and whether Fable 5.1's premium over Opus 5 is worth a 86% price increase.</li>
-      <li><b>Seven models carry the frontier under v4.3.</b> <b>Agnes 3.0 Flash ($0.03, 36-est)</b> opens as the cheapest dot ever plotted; <b>Qwen 3.8 Flash Next ($0.09, 40)</b> takes the next rung; <b>GLM-5.3-Flash ($0.10, 42)</b> retakes its rung 2 points clear; <b>MiMo-V2.6-Pro ($0.18, 46)</b> takes a new rung as the cheapest 46 ever plotted; <b>Muse Spark 1.3 max ($0.78, 48)</b> holds the upper-middle; then <b>Claude Opus 5 ($3.85, 51)</b> and <b>Claude Fable 5.1 ($7.17, 53)</b> close it. The other twenty-six are dominated — including <b>GPT-5.6 Sol</b> (47 < 48), <b>Grok 4.7</b> (46 < 48), <b>GLM-5.3</b> (45 < 48), <b>Qwen 3.8 Max</b> (45 < 48), <b>Grok 4.6</b> (44 < 48), <b>Gemini 3.8 Flash</b> (41 < 42), <b>GPT-6 Astra</b> (53-tie lost on price) and <b>Agnes Beta</b> (35).</li>
+      <li><b>Claude Fable 5.1 loses the top rung to Opus 5.5.</b> The 1 Sept release still scores <b>53 at unchanged $10/$50 rates</b> — but Opus 5.5 posts 58 at lower money ($2.94), so Fable 5.1 is now dominated 5 points back. It still dominates its predecessor outright: Fable 5 (50) trails by <b>3 points at higher money</b> ($7.17 vs $7.70). GPT-6 Astra ties 53 at $7.70 — the cheaper $7.17 wins the tie, but neither is on the frontier.</li>
+      <li><b>Claude Opus 5.5 takes the chart at 58 — new top rung.</b> Released 22 Sept; AA's max-with-fallback page scores <b>58 at $4/$20 ($2.94 blended, 95% cache discount)</b> — 5 clear of Fable 5.1 and Astra (53) at less than half their money. It dominates Opus 5 (51) outright: 7 points up at lower rates ($4/$20 vs $5/$25). First model to break 56, so y rescaled 24–56 → 24–60. See the <a href="https://artificialanalysis.ai/models/claude-opus-5-5">AA model page</a> and <a href="https://platform.claude.com/docs/en/models/opus-5-5/overview">Anthropic's docs</a> ($4/$20 confirmed).</li>
+      <li><b>Seven models carry the frontier under v4.3.</b> <b>Agnes 3.0 Flash ($0.03, 36-est)</b> opens as the cheapest dot ever plotted; <b>Qwen 3.8 Flash Next ($0.09, 40)</b> takes the next rung; <b>GLM-5.3-Flash ($0.10, 42)</b> retakes its rung 2 points clear; <b>MiMo-V2.6-Pro ($0.18, 46)</b> takes a new rung as the cheapest 46 ever plotted; <b>Muse Spark 1.3 max ($0.78, 48)</b> holds the upper-middle; then <b>Claude Opus 5.5 ($2.94, 58)</b> closes it 5 clear — dethroning Opus 5 (51) and Fable 5.1 (53), both now dominated. The other twenty-seven are dominated — including <b>Claude Fable 5.1</b> (53 < 58), <b>Claude Opus 5</b> (51 < 58), <b>GPT-5.6 Sol</b> (47 < 48), <b>Grok 4.7</b> (46 < 48), <b>GLM-5.3</b> (45 < 48), <b>Qwen 3.8 Max</b> (45 < 48), <b>Grok 4.6</b> (44 < 48), <b>Gemini 3.8 Flash</b> (41 < 42), <b>GPT-6 Astra</b> (53-tie lost on price) and <b>Agnes Beta</b> (35).</li>
       <li><b>GPT-6 Astra re-scores to 53 — tied at the top, rung lost on price.</b> v4.3 takes Astra from 55 to <b>53 at unchanged $10/$50</b> (6.9 pts/$) — dead even with Fable 5.1 (53) at higher money ($7.70 vs $7.17), so the top rung stays Anthropic's. Still above Opus (51). Fable 5 (50 at $7.70, 6.5 pts/$) keeps the wooden spoon.</li>
       <li><b>Gemini 3.7 Flash re-scores to 39 — still dominated by its successor.</b> v4.3 takes 3.7 from 45 to <b>39 at unchanged $0.58</b>; 3.8 sits 2 points above (41) at the exact price. 3.7 still beats its predecessor 3.6 (34) — now on price too, since Google cut 3.6 to the same $0.75/$3.75 list rates (3.7's better cache discount keeps its blend lower: $0.58 vs $0.63). It dominates <b>Grok 4.5 (39 — same Index, cheaper wins), Claude Sonnet 5, Muse Spark 1.1 and GLM-5.2</b> — but no longer Terra (42), which now outscores it.</li>
       <li><b>Gemini 3.8 Flash re-scores to 41 — and falls off.</b> v4.3 takes Google's replacement from 47 to <b>41 at unchanged $0.58</b> — still 2 over 3.7 (39) at the exact rates, but GLM-5.3-Flash (42) is now cheaper AND smarter. Google loses its rung.</li>
-      <li><b>Scores move — v4.3 moved them again, second rebase in a week.</b> This chart now runs on <b>Index v4.3 throughout</b>; do not compare any figure here against the August snapshots (v4.1.1) or the 5-Sept snapshot (v4.2). Treat every number as a snapshot of the live pages, re-verified 22 Sept 2026 (Grok 4.7 + MiMo-V2.6-Pro added; rest carried from the 12 Sept full re-fetch, Qwen 0902 + Spark max touched 19 Sept).</li>
+      <li><b>Scores move — v4.3 moved them again, second rebase in a week.</b> This chart now runs on <b>Index v4.3 throughout</b>; do not compare any figure here against the August snapshots (v4.1.1) or the 5-Sept snapshot (v4.2). Treat every number as a snapshot of the live pages, re-verified 23 Sept 2026 (Opus 5.5 added; Grok 4.7 + MiMo-V2.6-Pro added 22 Sept; rest carried from the 12 Sept full re-fetch).</li>
       <li><b>DeepSeek V4.1 Flash holds at 40 — directly verified.</b> Re-fetched 12 Sept: still <b>40 at $0.30/$1.20 ($0.18 blended)</b>, still the charted Flash row. At 40 it ties Qwen 3.8 Flash Next and Spark 1.2 at higher money — dominated grey. The planned <b>Monday 12:00 Beijing Time (14 Sept)</b> routing of <code>deepseek-v4-pro</code> to V4.1 Flash was cancelled, so no succession needed.</li>
       <li><b>Watch out for wrong GPT-5.6 pricing online — and Sol is off the frontier again.</b> Several pricing blogs list Luna at $1/$6 and Terra at $2.50/$15 per 1M. OpenAI's own API docs say <b>$0.20/$1.20 (Luna)</b> and <b>$2/$12 (Terra)</b> — a 5x error on Luna. AA's Sol cut to <b>$4/$20 ($3.08)</b> plus its v4.3 score of 47 briefly returned it to the frontier — but Spark max (48 at $0.78) now beats it cheaper. The official rates are used here, and Artificial Analysis agrees with them.</li>
       <li><b>Sol, Terra and Luna are three models, not three price tiers of one.</b> They post different Index scores (47 / 42 / 38) — and all three are now OFF the frontier (Sol 47 < Spark max's 48 at $0.78), while Terra and Luna are beaten by cheaper, smarter models.</li>
@@ -219,7 +220,7 @@
       <li><b>Qwen3.8-Flash-Next re-scores to 40 — estimate lifted, rung kept.</b> v4.3 takes it from 46-est to <b>40 measured</b> at unchanged $0.09 — still the $0.09 rung (40 > Agnes 3.0 Flash's 36). <a href="https://agnes-ai.com/">Agnes 2.5 Pro Beta</a> re-scores 40→<b>35 (still estimate) at $0.06</b> — dominated, and now beaten by its own sibling 3.0 Flash on both axes.</li>
       <li><b>Agnes 3.0 Flash opens the chart at $0.03.</b> Sapiens' new budget build scored 11 Sept at <b>36 (AA estimate) for $0.05/$0.15 ($0.03 blended, 1M ctx, 237 t/s)</b> — the cheapest dot ever plotted, forcing the x-axis floor wider ($0.045 → $0.02). It takes the opening rung (36 > nothing cheaper exists) at a staggering <b>1200 points per dollar</b>. If the independent eval moves the estimate, the bottom of the frontier moves with it.</li>
     </ul>
-    <p style="margin-top:14px">Sources: Artificial Analysis per-model pages (<b>Intelligence Index v4.3 throughout</b>) · arena.ai text leaderboard · vendor pricing docs (platform.claude.com, developers.openai.com, docs.x.ai, docs.z.ai, ai.meta.com, deepmind.google, minimax.io, openrouter.ai) · vendor blogs <a href="https://z.ai/blog/glm-5.3-flash">z.ai/blog/glm-5.3-flash</a> &amp; <a href="https://qwen.ai/blog?id=qwen3.8-flash-next">qwen.ai/blog?qwen3.8-flash-next</a> (pricing, not Index). Data as of 22 September 2026.</p>
+    <p style="margin-top:14px">Sources: Artificial Analysis per-model pages (<b>Intelligence Index v4.3 throughout</b>) · arena.ai text leaderboard · vendor pricing docs (platform.claude.com, developers.openai.com, docs.x.ai, docs.z.ai, ai.meta.com, deepmind.google, minimax.io, openrouter.ai) · vendor blogs <a href="https://z.ai/blog/glm-5.3-flash">z.ai/blog/glm-5.3-flash</a> &amp; <a href="https://qwen.ai/blog?id=qwen3.8-flash-next">qwen.ai/blog?qwen3.8-flash-next</a> (pricing, not Index). Data as of 23 September 2026.</p>
   </div>
 </div>
 
@@ -230,6 +231,7 @@
 const DATA = [
   { name:"Grok 4.6",           maker:"xAI",       idx:44, blend:1.35, inp:2,    out:6,    elo:null, ctx:"500K", dx:0,  dy:-15, anc:"middle" },
   { name:"Grok 4.7",           maker:"xAI",       idx:46, blend:1.35, inp:2,    out:6,    elo:null, ctx:"500K", dx:0,  dy:-15, anc:"middle" },
+  { name:"Claude Opus 5.5",    maker:"Anthropic", idx:58, blend:2.94, inp:4,    out:20,   elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
   { name:"Claude Opus 5",      maker:"Anthropic", idx:51, blend:3.85, inp:5,    out:25,   elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
   { name:"Claude Fable 5.1",   maker:"Anthropic", idx:53, blend:7.17, inp:10,   out:50,   elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
   { name:"Claude Fable 5",     maker:"Anthropic", idx:50, blend:7.70, inp:10,   out:50,   elo:1507, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
@@ -282,12 +284,12 @@ const money = v => "$" + (Math.round(v * 100) / 100 === v ? v.toFixed(2) : v.toF
   const W = 960, H = 520, M = { t: 26, r: 40, b: 56, l: 62 };
   const pw = W - M.l - M.r, ph = H - M.t - M.b;
   const x0 = Math.log10(0.02), x1 = Math.log10(11);
-  const y0 = 24, y1 = 56;
+  const y0 = 24, y1 = 60;
   const X = v => M.l + (Math.log10(v) - x0) / (x1 - x0) * pw;
   const Y = v => M.t + ph - (v - y0) / (y1 - y0) * ph;
 
   // gridlines + y ticks
-  for (let v = 25; v <= 55; v += 5) {
+  for (let v = 25; v <= 60; v += 5) {
     svg.appendChild(el("line", { x1: M.l, x2: M.l + pw, y1: Y(v), y2: Y(v), stroke: "var(--grid)", "stroke-width": 1 }));
     const t = el("text", { x: M.l - 12, y: Y(v) + 4, "text-anchor": "end", class: "tick" });
     t.textContent = v; svg.appendChild(t);
