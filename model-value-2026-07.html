@@ -140,7 +140,7 @@
 <header>
   <div>
     <h1>Which model is worth it — 2026</h1>
-    <p class="sub">Forty-three frontier models scored on the <b>Artificial Analysis Intelligence Index</b> against their blended API price. The Index is the anchor because it's the only capability score run the same way on every model here — vendor-published benchmarks disagreed with each other too much to combine.</p>
+    <p class="sub">Forty-two frontier models scored on the <b>Artificial Analysis Intelligence Index</b> against their blended API price. The Index is the anchor because it's the only capability score run the same way on every model here — vendor-published benchmarks disagreed with each other too much to combine.</p>
   </div>
   <button class="theme-btn" id="themeBtn" type="button">Dark</button>
 </header>
@@ -213,11 +213,13 @@
       <li><b>GPT-6 Astra re-scores to 53 — tied at the top, rung lost on price.</b> v4.3 takes Astra from 55 to <b>53 at unchanged $10/$50</b> (6.9 pts/$) — dead even with Fable 5.1 (53) at higher money ($7.70 vs $7.17), so the top rung stays Anthropic's. Still above Opus (51). Fable 5 (50 at $7.70, 6.5 pts/$) keeps the wooden spoon.</li>
       <li><b>Gemini 3.7 Flash re-scores to 39 — still dominated by its successor.</b> v4.3 takes 3.7 from 45 to <b>39 at unchanged $0.58</b>; 3.8 sits 2 points above (41) at the exact price. 3.7 still beats its predecessor 3.6 (34) — now on price too, since Google cut 3.6 to the same $0.75/$3.75 list rates (3.7's better cache discount keeps its blend lower: $0.58 vs $0.63). It dominates <b>Grok 4.5 (39 — same Index, cheaper wins), Claude Sonnet 5, Muse Spark 1.1 and GLM-5.2</b> — but no longer Terra (42), which now outscores it.</li>
       <li><b>Gemini 3.8 Flash re-scores to 41 — and falls off.</b> v4.3 takes Google's replacement from 47 to <b>41 at unchanged $0.58</b> — still 2 over 3.7 (39) at the exact rates, but GLM-5.3-Flash (42) is now cheaper AND smarter. Google loses its rung.</li>
+      <li><b>v4.3.2 micro-rebase: three rows drop a point — and Hy3 falls off.</b> AA's Index is now <b>v4.3.2</b> (the same 10 evals as v4.3, scores nudged). Live per-model pages verified 25 Sept: DeepSeek V4.1 Flash <b>40→39</b>, MiniMax M3 <b>30→29</b>, Hunyuan Hy3 <b>26→25</b>. At 25, Hy3 sits below the chart's floor of 26 — the same rule that kept Ling-3.0-flash-VL off — so it moves out of the scatter into an explicit blank row; its rates are unchanged ($0.14/$0.58, $0.11 blended). No frontier member moved.</li>
+      <li><b>GPT-6 Terra and MiMo-V2.6-Flash still have nothing to plot (checked 25 Sept).</b> AA's GPT-6 family is Astra/Sol/Luna only — there is no GPT-6 Terra page — and Xiaomi's V2.6 line is Pro-only, with no V2.6-Flash entry. No Index means no plot (scoring lag runs ~3–5 days after release); both stay pending.</li>
       <li><b>Scores move — v4.3 moved them again, second rebase in a week.</b> This chart now runs on <b>Index v4.3 throughout</b>; do not compare any figure here against the August snapshots (v4.1.1) or the 5-Sept snapshot (v4.2). Treat every number as a snapshot of the live pages, re-verified 23 Sept 2026 (GPT-6 Sol + Luna added; Opus 5.5 added earlier; rest carried from the 12 Sept full re-fetch).</li>
-      <li><b>DeepSeek V4.1 Flash holds at 40 — directly verified.</b> Re-fetched 12 Sept: still <b>40 at $0.30/$1.20 ($0.18 blended)</b>, still the charted Flash row. At 40 it ties Qwen 3.8 Flash Next and Spark 1.2 at higher money — dominated grey. The planned <b>Monday 12:00 Beijing Time (14 Sept)</b> routing of <code>deepseek-v4-pro</code> to V4.1 Flash was cancelled, so no succession needed.</li>
+      <li><b>DeepSeek V4.1 Flash re-scores to 39 on v4.3.2 — directly verified.</b> Re-fetched 25 Sept from the live page: <b>39 at $0.30/$1.20 ($0.18 blended)</b>, prices unchanged. At 39 it ties Gemini 3.7 Flash — and beats it on price ($0.18 vs $0.58) — but MiMo-V2.6-Pro matches its $0.18 with a 7-point lead, so the Flash row stays dominated grey. The planned <b>14 Sept</b> routing of <code>deepseek-v4-pro</code> to V4.1 Flash was cancelled, so no succession needed.</li>
       <li><b>Watch out for wrong GPT-5.6 pricing online — and Sol is off the frontier again.</b> Several pricing blogs list Luna at $1/$6 and Terra at $2.50/$15 per 1M. OpenAI's own API docs say <b>$0.20/$1.20 (Luna)</b> and <b>$2/$12 (Terra)</b> — a 5x error on Luna. AA's Sol cut to <b>$4/$20 ($3.08)</b> plus its v4.3 score of 47 briefly returned it to the frontier — but Spark max (48 at $0.78) now beats it cheaper. The official rates are used here, and Artificial Analysis agrees with them.</li>
       <li><b>GPT-5.6 Sol, Terra and Luna are three models, not three price tiers of one.</b> They post different Index scores (47 / 42 / 38) — and all three are now OFF the frontier (Sol 47 < Spark max's 48 at $0.78), while Terra and Luna are beaten by cheaper, smarter models.</li>
-      <li><b>Ties are broken on price — and on score.</b> Astra and Fable 5.1 tie at 53 — the cheaper ($7.17 vs $7.70) keeps the top rung. GLM-5.3 and Qwen 3.8 Max tie at 45 — $0.90 beats $1.18. Grok 4.6 and Kimi tie at 44 — $1.35 beats $2.31. Flash and Flash Vision tie at 35 @ $0.23 — stable order keeps both grey. Qwen 3.8 Flash Next, V4.1 Flash and Spark 1.2 tie at 40 — $0.09 / $0.18 / $0.78, all dominated. MiMo-V2.6-Pro, V4.1 Flash and V2.5-Pro tie at $0.18 — 46 wins the slot. GPT-6 Sol ties Spark 1.3 max at 48 — $1.54 vs $0.78, cheaper wins. The sorter (<code>a.blend - b.blend || b.idx - a.idx</code>) encodes both rules; without the second term a weaker model can land on the line.</li>
+      <li><b>Ties are broken on price — and on score.</b> Astra and Fable 5.1 tie at 53 — the cheaper ($7.17 vs $7.70) keeps the top rung. GLM-5.3 and Qwen 3.8 Max tie at 45 — $0.90 beats $1.18. Grok 4.6 and Kimi tie at 44 — $1.35 beats $2.31. Flash and Flash Vision tie at 35 @ $0.23 — stable order keeps both grey. Qwen 3.8 Flash Next and Spark 1.2 tie at 40 — $0.09 beats $0.78, both dominated. Gemini 3.7 Flash and DeepSeek V4.1 Flash tie at 39 — $0.18 beats $0.58. MiMo-V2.6-Pro, V4.1 Flash and V2.5-Pro tie at $0.18 — 46 wins the slot. Qwen 3.8 Max and Qwen3.8 2.4T A95B tie at $1.18 — 45 wins it. Apodex 1.1, Kimi K2.7 Code, GPT-5.5 Instant and MiMo-V2.5-Pro tie at 26 — $0.18 is cheapest of the four, and all are dominated anyway. GPT-6 Sol ties Spark 1.3 max at 48 — $1.54 vs $0.78, cheaper wins. The sorter (<code>a.blend - b.blend || b.idx - a.idx</code>) encodes both rules; without the second term a weaker model can land on the line.</li>
       <li><b>DeepSeek V4 Pro 0813 re-scores to 36 — and stays.</b> v4.3 takes Pro from 42 to <b>36 at unchanged $1.32/$3.96</b> — trailing Spark max (48) by 12 at nearly the same money. The planned 14 Sept migration (endpoint serving V4.1 Flash) was cancelled — DeepSeek now says V4 Pro stays with billing unchanged.</li>
       <li><b>Read DeepSeek's price table by column — prices verified again 12 Sept.</b> DeepSeek's first column is <i>input on a cache hit</i>, not the standard input rate — misreading it once understated V4 Pro's cost ~120x. AA still lists <b>Flash-class at $0.30–$0.44 in / $1.20–$1.32 out and Pro 0813 at $1.32/$3.96</b> "based on DeepSeek's API". The blended figures here track AA's current pages; if DeepSeek restores promo rates, the rows move left.</li>
       <li><b>Fast mode is a separate rate.</b> Opus 5 in fast mode bills at $10/$50 per 1M — the same as Fable 5's standard rate, and not what's charted here.</li>
@@ -261,7 +263,7 @@ const DATA = [
   { name:"GPT-6 Luna",         maker:"OpenAI",    idx:37, blend:0.08, inp:0.10, out:0.50, elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
   { name:"Muse Spark 1.1",     maker:"Meta",      idx:34, blend:0.78, inp:1.25, out:4.25, elo:1495, ctx:"1M",   dx:-12,dy:5,   anc:"end"    },
   { name:"GLM-5.2",            maker:"Z.ai",      idx:34, blend:0.90, inp:1.40, out:4.40, elo:1469, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
-  { name:"DeepSeek V4.1 Flash", maker:"DeepSeek", idx:40, blend:0.18, inp:0.30, out:1.20, elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
+  { name:"DeepSeek V4.1 Flash", maker:"DeepSeek", idx:39, blend:0.18, inp:0.30, out:1.20, elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
   { name:"GLM-5.3 Flash",      maker:"Z.ai",      idx:42, blend:0.10, inp:0.15, out:0.50, elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
   { name:"Qwen 3.8 Flash Next",maker:"Alibaba",   idx:40, blend:0.09, inp:0.15, out:0.47, elo:null, ctx:"256K", dx:-12,dy:5,   anc:"end"    },
   { name:"Qwen 3.8 27B",       maker:"Alibaba",   idx:34, blend:0.43, inp:0.50, out:3.00, elo:null, ctx:"256K", dx:0,  dy:-15, anc:"middle" },
@@ -271,11 +273,10 @@ const DATA = [
   { name:"Agnes 3.0 Flash",    maker:"Sapiens AI",idx:36, blend:0.03, inp:0.05, out:0.15, elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
   { name:"DeepSeek V4 Pro 0813",maker:"DeepSeek", idx:36, blend:0.69, inp:1.32, out:3.96, elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
   { name:"Quasar 438B",        maker:"Multiverse",idx:27, blend:0.72, inp:0.60, out:1.80, elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
-  { name:"MiniMax M3",         maker:"MiniMax",   idx:30, blend:0.22, inp:0.30, out:1.20, elo:1444, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
+  { name:"MiniMax M3",         maker:"MiniMax",   idx:29, blend:0.22, inp:0.30, out:1.20, elo:1444, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
   { name:"MiMo-V2.6-Pro",      maker:"Xiaomi",    idx:46, blend:0.18, inp:0.435,out:0.87, elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
   { name:"MiMo-V2.5-Pro",      maker:"Xiaomi",    idx:26, blend:0.18, inp:0.435,out:0.87, elo:null, ctx:"1M",   dx:-12,dy:5,   anc:"end"    },
   { name:"Apodex 1.1",         maker:"Apodex",    idx:26, blend:0.38, inp:0.30, out:3.00, elo:null, ctx:"256K", dx:0,  dy:-15, anc:"middle" },
-  { name:"Hunyuan 3 (Hy3)",    maker:"Tencent",   idx:26, blend:0.11, inp:0.14, out:0.55, elo:null, ctx:"256K", dx:0,  dy:-15, anc:"middle" },
 ];
 DATA.forEach(d => d.ppd = d.idx / d.blend);
 
@@ -442,6 +443,8 @@ bars("barValue", [...DATA].sort((a,b) => b.ppd - a.ppd).map(d => ({ d, v: d.ppd 
   [
     { cells: ["Ox Alpha (stealth)", "undisclosed", "—", "Free*", "Free*", "Free*", "—", "—", "1M"],
       title: "Stealth preview released 20 Aug 2026 — no Intelligence Index, and free preview pricing is not a real rate" },
+    { cells: ["Hunyuan 3 (Hy3)", "Tencent", "25", "0.11", "0.14", "0.58", "227.3", "—", "256K"],
+      title: "Re-scored 26→25 on AA's Index v4.3.2 (live page, 25 Sept) — below the chart's Index floor of 26; prices unchanged at $0.14/$0.58 ($0.11 blended)" },
   ].forEach(row => {
     const tr = document.createElement("tr");
     row.cells.forEach(c => {
