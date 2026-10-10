@@ -2,7 +2,7 @@
 
 **Repo:** https://github.com/sonnylazuardi/model-value-frontier
 **Live URL:** https://vps.sonnylab.com/model-value-2026-07.html
-**Last updated:** 13 September 2026
+**Last updated:** 10 October 2026
 **File in this repo:** `model-value-2026-07.html` (do NOT rename — the live URL depends on it)
 
 You are an AI agent on a **different machine** with **no access** to the serving box.
@@ -200,7 +200,9 @@ side's changes, and even sequential full-block rewrites race. Protocol:
 
 ---
 
-## 6. Current dataset (31 plotted, Index v4.3, as of 12 Sept 2026)
+## 6. Current dataset (49 plotted, Index v4.3.2, as of 10 Oct 2026)
+
+> The `DATA` array in `model-value-2026-07.html` is the source of truth. The table below is a 12 Sept snapshot and most rows are stale. Regenerate from `DATA` (section 4) rather than trusting it.
 
 | Model | Maker | Index | Blended $/1M | In | Out | Pts/$ | Frontier |
 |---|---|---|---|---|---|---|---|
@@ -238,9 +240,9 @@ side's changes, and even sequential full-block rewrites race. Protocol:
 
 *estimate tag survives only on the Agnes pair.
 
-**Frontier (7, v4.3):** Agnes 3.0 Flash ($0.03) → Qwen 3.8 Flash Next ($0.09) →
-GLM-5.3 Flash ($0.10) → Muse Spark 1.3 ($0.78) → GPT-5.6 Sol ($3.08) →
-Claude Opus 5 ($3.85) → Claude Fable 5.1 ($7.17).
+**Frontier (8, v4.3.2, 10 Oct 2026):** Agnes 3.0 Flash ($0.03) → MiMo-V2.6-Flash ($0.06) →
+Claude Haiku 5.5 ($0.08) → MiMo-V2.6-Pro ($0.18) → Muse Spark 1.3 ($0.78) →
+Gemini 4 Argon ($1.47) → Claude Sonnet 5.5 ($1.54) → Claude Opus 5.5 ($2.94).
 
 ### Deliberately unplottable (blank table rows — do not invent numbers)
 
@@ -254,6 +256,7 @@ Claude Opus 5 ($3.85) → Claude Fable 5.1 ($7.17).
 | **MiniCPM5-2B** (7 Sept) | AA Index ~13 (estimate) **and** price **$0** — double-blocked. |
 | **K2 Horizon 375B** (MBZUAI) | Has an AA Index but no per-token price found — needs pricing research. |
 | **Ling-3.0-flash-VL** | Index 25, below the chart's floor. Do not plot. |
+| **GPT-6 Sol (Daybreak Blue)** (8 Oct) | Trusted-access variant; AA shows no Intelligence Index on its model page. |
 
 ### Calendar watches (check on/after these dates)
 
@@ -275,3 +278,22 @@ Claude Opus 5 ($3.85) → Claude Fable 5.1 ($7.17).
   `@media (prefers-color-scheme: dark)` and `:root[data-theme="dark"]`).
 - Every value reachable without hover (table view). Tooltips enhance, never gate.
 - Labels inserted with `textContent`, never `innerHTML`.
+
+---
+
+## 8. Deploy to the live URL
+
+The live page is served by Caddy from `/var/www/vps.sonnylab.com` (`/etc/caddy/Caddyfile`: `root * /var/www/vps.sonnylab.com`). That directory is owned by `caddy` and is **not** a git checkout, so a push alone does not change the live page. `model.html` in that directory is a symlink to `model-value-2026-07.html`, so both URLs serve the same file.
+
+Only the serving box can deploy. An external agent (section 5) stops at push.
+
+On the serving box, after the commit is on `main`:
+
+```bash
+cd /home/sonnylab/projects/model-value-frontier
+git pull --rebase
+sudo install -o caddy -g caddy -m 644 model-value-2026-07.html /var/www/vps.sonnylab.com/model-value-2026-07.html
+curl -fsS https://vps.sonnylab.com/model-value-2026-07.html | cmp - model-value-2026-07.html && echo "LIVE == repo"
+```
+
+The daily 11:00 `verify-live-chart.sh` job (read-only) reports IN SYNC or OUT OF SYNC against `origin/main` in `~/logs/verify-live-chart.log`.
