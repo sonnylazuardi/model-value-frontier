@@ -87,6 +87,22 @@
   .pt-label { font-size: 11.5px; fill: var(--text-secondary); font-weight: 500; }
   .pt-label.on { fill: var(--text-primary); font-weight: 600; }
 
+  /* highlight (?highlight=name, or click a name / dot) */
+  .mk { transition: opacity .15s; }
+  .mk .ring { display: none; }
+  .mk.hl .ring { display: inline; }
+  .mk.hl .pt-label { fill: var(--text-primary); font-weight: 700; paint-order: stroke; stroke: var(--surface-1); stroke-width: 4px; stroke-linejoin: round; }
+  #scatter.hl-on .mk:not(.hl) { opacity: .22; }
+  #scatter.hl-on polyline { opacity: .18; }
+  .rows.hl-on .row:not(.hl) { opacity: .35; }
+  .row.hl .row-name { color: var(--text-primary); font-weight: 700; }
+  .row-name { cursor: pointer; }
+  .row-name:hover { color: var(--text-primary); text-decoration: underline; text-underline-offset: 2px; }
+  tr.hl td { background: var(--hover-wash); font-weight: 600; }
+  .hl-note { display: none; margin: 0 0 12px; font-size: 12.5px; color: var(--text-secondary); }
+  .hl-note.show { display: block; }
+  .hl-note button { font: inherit; color: var(--series-1); background: none; border: 0; padding: 0 0 0 6px; cursor: pointer; text-decoration: underline; }
+
   .legend { display: flex; gap: 20px; flex-wrap: wrap; margin: 14px 0 0; font-size: 12.5px; color: var(--text-secondary); }
   .legend span { display: inline-flex; align-items: center; gap: 7px; }
   .key { width: 11px; height: 11px; border-radius: 50%; flex: none; }
@@ -148,6 +164,7 @@
 <div class="card">
   <h2>Performance vs price</h2>
   <p class="cap">Blended cost per 1M tokens (log scale) against Intelligence Index. Models on the <b>value frontier</b> are the ones where nothing cheaper is also smarter — everything gray is beaten on both counts by something on the line.</p>
+  <p class="hl-note" id="hlNote" aria-live="polite"></p>
   <svg id="scatter" viewBox="0 0 960 520" role="img" aria-label="Scatter plot of Intelligence Index versus blended price per million tokens"></svg>
   <div class="legend">
     <span><i class="key" style="background:var(--series-1)"></i>On the value frontier</span>
@@ -361,14 +378,16 @@ const money = v => "$" + (Math.round(v * 100) / 100 === v ? v.toFixed(2) : v.toF
   svg.appendChild(el("polyline", { points: pts, fill: "none", stroke: "var(--series-1)",
     "stroke-width": 2, "stroke-linejoin": "round", "stroke-linecap": "round", opacity: .38 }));
 
-  // marks
+  // marks — one <g> per model so a highlight can dim the rest and raise it
   DATA.forEach(d => {
     const cx = X(d.blend), cy = Y(d.idx), c = d.front ? "var(--series-1)" : "var(--demote)";
-    svg.appendChild(el("circle", { cx, cy, r: 7.5, fill: "var(--surface-1)" }));      // 2px surface ring
-    svg.appendChild(el("circle", { cx, cy, r: 5.5, fill: c }));
+    const g = el("g", { class: "mk" }); d.mk = g; svg.appendChild(g);
+    g.appendChild(el("circle", { cx, cy, r: 11, fill: "none", stroke: "var(--text-primary)", "stroke-width": 1.5, class: "ring" }));
+    g.appendChild(el("circle", { cx, cy, r: 7.5, fill: "var(--surface-1)" }));      // 2px surface ring
+    g.appendChild(el("circle", { cx, cy, r: 5.5, fill: c }));
     const lb = el("text", { x: cx + d.dx, y: cy + d.dy, "text-anchor": d.anc,
       class: "pt-label" + (d.front ? " on" : "") });
-    lb.textContent = d.name; svg.appendChild(lb);
+    lb.textContent = d.name; g.appendChild(lb);
 
     const hit = el("circle", { cx, cy, r: 16, fill: "transparent", tabindex: "0", role: "img",
       "aria-label": `${d.name}: index ${d.idx}, ${money(d.blend)} per 1M tokens` });
@@ -379,7 +398,9 @@ const money = v => "$" + (Math.round(v * 100) / 100 === v ? v.toFixed(2) : v.toF
     hit.addEventListener("pointerleave", hide);
     hit.addEventListener("focus", () => tipAt(cx, cy, d, svg));
     hit.addEventListener("blur", hide);
-    svg.appendChild(hit);
+    hit.addEventListener("click", () => toggleHighlight(d));
+    hit.addEventListener("keydown", e => { if (e.key === "Enter") toggleHighlight(d); });
+    g.appendChild(hit);
   });
 })();
 
@@ -438,6 +459,10 @@ function bars(mount, rows, fmt) {
   rows.forEach(r => {
     const row = document.createElement("div"); row.className = "row";
     const n = document.createElement("div"); n.className = "row-name"; n.textContent = r.d.name;
+    n.title = r.d.name; n.tabIndex = 0; n.setAttribute("role", "button");
+    n.addEventListener("click", () => toggleHighlight(r.d));
+    n.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleHighlight(r.d); } });
+    (r.d.rows ||= []).push(row);
     const track = document.createElement("div"); track.className = "track";
     const bar = document.createElement("div"); bar.className = "bar";
     bar.style.width = Math.max(2, r.v / max * 100) + "%";
@@ -463,7 +488,7 @@ bars("barValue", [...DATA].sort((a,b) => b.ppd - a.ppd).map(d => ({ d, v: d.ppd 
 (function () {
   const tb = document.querySelector("#tbl tbody");
   [...DATA].sort((a,b) => b.idx - a.idx).forEach(d => {
-    const tr = document.createElement("tr");
+    const tr = document.createElement("tr"); d.tr = tr;
     const cells = [d.name, d.maker, d.idx, money(d.blend), money(d.inp), money(d.out), d.ppd.toFixed(1), d.elo ?? "—", d.ctx];
     cells.forEach((c, i) => {
       const td = document.createElement("td");
@@ -497,6 +522,51 @@ bars("barValue", [...DATA].sort((a,b) => b.ppd - a.ppd).map(d => ({ d, v: d.ppd 
     tb.appendChild(tr);
   });
 })();
+
+/* ---------- highlight ---------- */
+// ?highlight=Kimi K3.1 Pro (comma-separated for several). Case and punctuation are
+// ignored; an exact name wins, otherwise every model containing the text is lit.
+const norm = t => t.toLowerCase().replace(/[^a-z0-9]/g, "");
+function matchModels(q) {
+  const out = new Set();
+  q.split(",").map(norm).filter(Boolean).forEach(t => {
+    const exact = DATA.filter(d => norm(d.name) === t);
+    (exact.length ? exact : DATA.filter(d => norm(d.name).includes(t))).forEach(d => out.add(d));
+  });
+  return out;
+}
+function applyHighlight(set, query) {
+  const on = set.size > 0, svg = document.getElementById("scatter");
+  svg.classList.toggle("hl-on", on);
+  document.querySelectorAll(".rows").forEach(r => r.classList.toggle("hl-on", on));
+  DATA.forEach(d => {
+    const hl = set.has(d);
+    d.mk.classList.toggle("hl", hl);
+    if (hl) svg.appendChild(d.mk);                    // raise above neighbours
+    (d.rows || []).forEach(r => r.classList.toggle("hl", hl));
+    d.tr.classList.toggle("hl", hl);
+  });
+  const note = document.getElementById("hlNote");
+  note.replaceChildren();
+  if (on || query) {
+    note.append(on ? "Highlighting: " + [...set].map(d => d.name).join(", ")
+                   : "No model matches \u201c" + query + "\u201d");
+    const b = document.createElement("button"); b.type = "button"; b.textContent = "Clear";
+    b.addEventListener("click", () => setHighlight(""));
+    note.appendChild(b);
+  }
+  note.classList.toggle("show", on || !!query);
+}
+let hlQuery = "";
+function setHighlight(q) {
+  hlQuery = q;
+  const u = new URL(location.href);
+  q ? u.searchParams.set("highlight", q) : u.searchParams.delete("highlight");
+  history.replaceState(null, "", u);
+  applyHighlight(matchModels(q), q);
+}
+function toggleHighlight(d) { setHighlight(norm(hlQuery) === norm(d.name) ? "" : d.name); }
+setHighlight(new URLSearchParams(location.search).get("highlight") || "");
 
 /* ---------- theme ---------- */
 (function () {

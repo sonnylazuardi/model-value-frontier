@@ -23,7 +23,12 @@ vs price**. Open the file in a browser and it renders. Contents:
 4. **Table** — every figure, plus unplottable models as explicit blank rows.
 5. **"What to trust here"** — caveats, corrections, why certain models are excluded.
 
-Light/dark themes, hover tooltips, keyboard focus, table view. No build step, no
+Light/dark themes, hover tooltips, keyboard focus, table view. Highlighting: `?highlight=<model name>`
+(comma-separated for several; case/punctuation ignored, exact name wins, else
+substring match — `?highlight=claude` lights every Claude) dims everything else
+across scatter, bars and table. Clicking a bar-chart name or a scatter dot
+toggles the same highlight and rewrites the URL so the view is shareable.
+Highlight lookup goes through `DATA[].name`, so renaming a row breaks old links. No build step, no
 JS framework. All rendering is vanilla JS + SVG in the single `<script>` block.
 
 ---
