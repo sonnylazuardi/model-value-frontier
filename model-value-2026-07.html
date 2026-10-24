@@ -92,7 +92,7 @@
   .mk .ring { display: none; }
   .mk.hl .ring { display: inline; }
   .mk.hl .pt-label { fill: var(--text-primary); font-weight: 700; paint-order: stroke; stroke: var(--surface-1); stroke-width: 4px; stroke-linejoin: round; }
-  #scatter.hl-on .mk:not(.hl) { opacity: .22; }
+  #scatter.hl-on .mk:not(.hl):not(.front) { opacity: .22; }
   .rows.hl-on .row:not(.hl) { opacity: .35; }
   .row.hl .row-name { color: var(--text-primary); font-weight: 700; }
   .row-name { cursor: pointer; }
@@ -380,7 +380,7 @@ const money = v => "$" + (Math.round(v * 100) / 100 === v ? v.toFixed(2) : v.toF
   // marks — one <g> per model so a highlight can dim the rest and raise it
   DATA.forEach(d => {
     const cx = X(d.blend), cy = Y(d.idx), c = d.front ? "var(--series-1)" : "var(--demote)";
-    const g = el("g", { class: "mk" }); d.mk = g; svg.appendChild(g);
+    const g = el("g", { class: "mk" + (d.front ? " front" : "") }); d.mk = g; svg.appendChild(g);
     g.appendChild(el("circle", { cx, cy, r: 11, fill: "none", stroke: "var(--text-primary)", "stroke-width": 1.5, class: "ring" }));
     g.appendChild(el("circle", { cx, cy, r: 7.5, fill: "var(--surface-1)" }));      // 2px surface ring
     g.appendChild(el("circle", { cx, cy, r: 5.5, fill: c }));
