@@ -155,7 +155,7 @@
 <header>
   <div>
     <h1>Which model is worth it — 2026</h1>
-    <p class="sub">Fifty-nine frontier models scored on the <b>Artificial Analysis Intelligence Index</b> against their blended API price. The Index is the anchor because it's the only capability score run the same way on every model here — vendor-published benchmarks disagreed with each other too much to combine.</p>
+    <p class="sub">Sixty frontier models scored on the <b>Artificial Analysis Intelligence Index</b> against their blended API price. The Index is the anchor because it's the only capability score run the same way on every model here — vendor-published benchmarks disagreed with each other too much to combine.</p>
   </div>
   <button class="theme-btn" id="themeBtn" type="button">Dark</button>
 </header>
@@ -169,6 +169,7 @@
     <span><i class="key" style="background:var(--series-1)"></i>On the value frontier</span>
     <span><i class="key" style="background:var(--demote)"></i>Dominated — cheaper models match or beat it</span>
     <span><i class="key line" style="background:var(--series-1)"></i>Value frontier</span>
+    <span><i class="key" style="border:1.5px dashed var(--text-primary);width:9px;height:9px;background:var(--surface-1)"></i>Scored on Index v5.0 — not comparable, excluded from the frontier</span>
   </div>
 </div>
 
@@ -207,7 +208,7 @@
       <li><b>Rebased to Intelligence Index v4.3 on 12 Sept 2026 — every score below is new.</b> AA launched <b>v4.3 on 7 Sept</b> (Terminal-Bench v4.0 and AutomationBench-AA in, τ³-Banking out; category weights unchanged). All 31 models were re-fetched from their live AA pages (4 parallel workers, every anomaly verified directly against its page); scores run <b>~4–8 points below v4.2</b> (Fable 5.1 57→53, Spark 1.3 52→45, Flash 41→35). Prices verified stable across the board — no hikes or cuts this round. Estimate tags now survive only on the <b>Agnes pair</b> (Beta 35, 3.0 Flash 36); QFN/GLMF/GLM-5.2 graduated to measured. New: <b>Agnes 3.0 Flash</b> plotted as the cheapest dot ever ($0.03 — x-axis floor widened $0.045→$0.02); y rescaled 30–60 → 24–56.</li>
       <li><b>GLM-5.3 re-scores to 45 — and now dominates Kimi too.</b> v4.3 takes the 743B build from 49 to <b>45 at unchanged $1.40/$4.40 rates</b> — 11 over GLM-5.2 (34) at the same money. It dominates <b>Qwen 3.8 Max (45-tie won on price), Kimi K3, GPT-5.6 Terra, Grok 4.5, Claude Sonnet 5, Gemini 3.6 Flash and GLM-5.2</b>. It falls 3 short of Muse Spark 1.3 max (48) and 2 short of GPT-5.6 Sol (47). Off the frontier: beaten cheaper by Spark max ($0.90 vs $0.78).</li>
       <li><b>Muse Spark 1.2 re-scores to 40 — buried deeper.</b> v4.3 puts 1.2 at <b>Index 40 vs 1.1's 34</b> — same money, six more points, so 1.1 stays dominated. But 1.3 max posts 48 at the same $0.78, and Gemini 3.8 Flash beats it (41) at $0.58 — 1.2 wins neither comparison. Off the frontier.</li>
-      <li><b>Index v5.0 launched 27 Oct — this chart is still on v4.3.2.</b> AA's new Index adds FrontierCode 2.0 and Terminal-Bench-Science, upgrades HLE-Diamond, AA-Omniscience v1.1 and CritPt v2, and drops GDPval-AA v2, SciCode and AA-LCR. Scores moved a lot: AA's live pages now show Kimi K3.1 Pro at 46 (was 55 here), Claude Haiku 5.5 at 36 (was 43) and GPT-6.1 Terra at 51 (was 48). <b>Gemini 4 Carbon</b> (released 28 Oct, <b>59 at $4/$20, $2.94 blended</b>) is the new #1 on v5, but it has no v4.3.2 score, so it sits as a blank table row rather than breaking the one-version rule. Every plotted figure here is therefore a v4.3.2 snapshot that AA's pages no longer show; a full v5 rebase is pending.</li>
+      <li><b>Index v5.0 launched 27 Oct — this chart is still on v4.3.2.</b> AA's new Index adds FrontierCode 2.0 and Terminal-Bench-Science, upgrades HLE-Diamond, AA-Omniscience v1.1 and CritPt v2, and drops GDPval-AA v2, SciCode and AA-LCR. Scores moved a lot: AA's live pages now show Kimi K3.1 Pro at 46 (was 55 here), Claude Haiku 5.5 at 36 (was 43) and GPT-6.1 Terra at 51 (was 48). <b>Gemini 4 Carbon</b> (released 28 Oct, <b>59 at $4/$20, $2.94 blended</b>) is the new #1 on v5, but it has no v4.3.2 score, so it is plotted as a <b>hollow dashed dot labelled “(v5)”</b> and deliberately left out of the frontier calculation. Read it as “where v5 puts it”, not as beating Opus 5.5 (58 on v4.3.2, same $2.94) — on v5 Opus 5.5 also scores 58, so the comparison happens to hold, but the other rows are not like-for-like. Every plotted figure here is therefore a v4.3.2 snapshot that AA's pages no longer show; a full v5 rebase is pending.</li>
       <li><b>GPT-6.1 Terra plots at 48 — takes Spark 1.3's frontier rung on price.</b> Released 26 Oct; AA's canonical max page scores <b>48 at $1/$5 ($0.73 blended, 95% cache discount)</b>, 1M context, 6 API providers. It ties Muse Spark 1.3 max (48) for five cents less ($0.73 vs $0.78), so the equal-Index tie-break hands Terra the rung and Spark goes grey. The frontier stays at eight. It buries GPT-5.6 Terra (42 at $1.74) by 6 points at under half the money. AA also scores lower effort tiers (non-reasoning 33 up to xhigh 45); the chart uses the canonical max page. See the <a href="https://artificialanalysis.ai/models/gpt-6-1-terra">AA model page</a>.</li>
       <li><b>Kimi K3.1 Pro plots at 55 — top open-weights score once weights ship, but one point short of a rung.</b> Released 23 Oct; AA scores it <b>55 at $2/$10 ($1.54 blended, 90% cache discount)</b>, 1M context, 2 API providers. It buries Kimi K3 (44 at $2.31) by 11 points at a third less money, and beats Gemini 4 Argon (53), but Claude Sonnet 5.5 scores 56 at the same $1.54 blend, so the higher Index keeps the rung and Kimi lands grey. Moonshot promises open weights by 4 Nov. A Highspeed variant ($4/$20) has no separate AA score. See the <a href="https://artificialanalysis.ai/models/kimi-k3-1-pro">AA model page</a>.</li>
       <li><b>Ling 3.1 Flash 1019 and MiniMax-M3.1-Flash — two strong budget builds, both dominated.</b> <b>Ling 3.1 Flash 1019</b> (InclusionAI, 22 Oct) scores <b>44 at $0.30/$0.90 ($0.19 blended)</b>, 3 over the original Ling 3.1 Flash (41) at identical rates — but MiMo-V2.6-Pro scores 46 for $0.18. <b>MiniMax-M3.1-Flash</b> (19 Oct) scores <b>43 at $0.15/$0.60 ($0.10 blended, 90% cache discount)</b>, 14 over MiniMax M3 (29) — but ties Claude Haiku 5.5 at 43, and Haiku is cheaper ($0.08). See AA's pages for <a href="https://artificialanalysis.ai/models/ling-3-1-flash-1019">Ling 3.1 Flash 1019</a> and <a href="https://artificialanalysis.ai/models/minimax-m3-1-flash">MiniMax-M3.1-Flash</a>.</li>
@@ -273,7 +274,7 @@ const DATA = [
   { name:"Grok 4.6",           maker:"xAI",       idx:44, blend:1.35, inp:2,    out:6,    elo:null, ctx:"500K", dx:0,  dy:-15, anc:"middle" },
   { name:"Grok 4.7",           maker:"xAI",       idx:46, blend:1.35, inp:2,    out:6,    elo:null, ctx:"500K", dx:0,  dy:-15, anc:"middle" },
   { name:"Step 5 Preview",     maker:"StepFun",   idx:44, blend:0.51, inp:1.00, out:2.70, elo:null, ctx:"1M",   dx:0,  dy:-18, anc:"middle" },
-  { name:"Claude Opus 5.5",    maker:"Anthropic", idx:58, blend:2.94, inp:4,    out:20,   elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
+  { name:"Claude Opus 5.5",    maker:"Anthropic", idx:58, blend:2.94, inp:4,    out:20,   elo:null, ctx:"1M",   dx:12, dy:5, anc:"start" },
   { name:"Claude Sonnet 5.5",  maker:"Anthropic", idx:56, blend:1.54, inp:2,    out:10,   elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
   { name:"Claude Opus 5",      maker:"Anthropic", idx:51, blend:3.85, inp:5,    out:25,   elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
   { name:"Claude Fable 5.1",   maker:"Anthropic", idx:53, blend:7.17, inp:10,   out:50,   elo:null, ctx:"1M",   dx:0,  dy:-15, anc:"middle" },
@@ -328,13 +329,14 @@ const DATA = [
   { name:"Ling 3.1 Flash 1019", maker:"InclusionAI",idx:44, blend:0.19, inp:0.30, out:0.90, elo:null, ctx:"1M",  dx:12, dy:5, anc:"start" },
   { name:"MiniMax-M3.1-Flash", maker:"MiniMax",   idx:43, blend:0.10, inp:0.15, out:0.60, elo:null, ctx:"1M",   dx:-12, dy:18, anc:"end" },
   { name:"GPT-6.1 Terra",      maker:"OpenAI",    idx:48, blend:0.73, inp:1,    out:5,    elo:null, ctx:"1M",   dx:-12,dy:5,   anc:"end"    },
+  { name:"Gemini 4 Carbon (v5)", maker:"Google",   idx:59, blend:2.94, inp:4,    out:20,   elo:null, ctx:"1M",   dx:0, dy:-15, anc:"middle", v5:true },
   { name:"Apodex 1.1",         maker:"Apodex",    idx:26, blend:0.38, inp:0.30, out:3.00, elo:null, ctx:"256K", dx:0,  dy:-15, anc:"middle" },
 ];
 DATA.forEach(d => d.ppd = d.idx / d.blend);
 
-// value frontier: ascending price, keep running max index
+// value frontier: ascending price, keep running max index (v5-scored rows are shown but never compared)
 const frontier = [];
-[...DATA].sort((a,b) => a.blend - b.blend || b.idx - a.idx).forEach(d => {
+DATA.filter(d => !d.v5).sort((a,b) => a.blend - b.blend || b.idx - a.idx).forEach(d => {
   if (!frontier.length || d.idx > frontier[frontier.length-1].idx) frontier.push(d);
 });
 const onF = new Set(frontier.map(d => d.name));
@@ -350,7 +352,7 @@ const money = v => "$" + (Math.round(v * 100) / 100 === v ? v.toFixed(2) : v.toF
   const W = 960, H = 520, M = { t: 26, r: 40, b: 56, l: 62 };
   const pw = W - M.l - M.r, ph = H - M.t - M.b;
   const x0 = Math.log10(0.02), x1 = Math.log10(11);
-  const y0 = 24, y1 = 60;
+  const y0 = 24, y1 = 63;
   const X = v => M.l + (Math.log10(v) - x0) / (x1 - x0) * pw;
   const Y = v => M.t + ph - (v - y0) / (y1 - y0) * ph;
 
@@ -386,7 +388,8 @@ const money = v => "$" + (Math.round(v * 100) / 100 === v ? v.toFixed(2) : v.toF
     const g = el("g", { class: "mk" + (d.front ? " front" : "") }); d.mk = g; svg.appendChild(g);
     g.appendChild(el("circle", { cx, cy, r: 11, fill: "none", stroke: "var(--text-primary)", "stroke-width": 1.5, class: "ring" }));
     g.appendChild(el("circle", { cx, cy, r: 7.5, fill: "var(--surface-1)" }));      // 2px surface ring
-    g.appendChild(el("circle", { cx, cy, r: 5.5, fill: c }));
+    g.appendChild(d.v5 ? el("circle", { cx, cy, r: 5, fill: "var(--surface-1)", stroke: "var(--text-primary)", "stroke-width": 1.5, "stroke-dasharray": "2.5 2" })
+                       : el("circle", { cx, cy, r: 5.5, fill: c }));
     const lb = el("text", { x: cx + d.dx, y: cy + d.dy, "text-anchor": d.anc,
       class: "pt-label" + (d.front ? " on" : "") });
     lb.textContent = d.name; g.appendChild(lb);
@@ -423,12 +426,12 @@ function tipHTML(d) {
     ["Maker", d.maker],
   ];
   if (d.elo) rows.push(["Arena Elo", String(d.elo)]);
-  rows.push([d.front ? "On value frontier" : "Dominated", ""]);
+  rows.push([d.v5 ? "Index v5.0 \u2014 not comparable with the v4.3.2 rows" : d.front ? "On value frontier" : "Dominated", ""]);
   rows.forEach(([lab, val], i) => {
     const r = document.createElement("div"); r.className = "tip-r";
     if (i === rows.length - 1 && !val) {
       const s = document.createElement("span");
-      s.textContent = lab; s.style.color = d.front ? "var(--series-1)" : "var(--text-muted)";
+      s.textContent = lab; s.style.color = d.v5 ? "var(--text-primary)" : d.front ? "var(--series-1)" : "var(--text-muted)";
       s.style.fontWeight = "600"; r.appendChild(s);
     } else {
       const b = document.createElement("b"); b.textContent = val;
@@ -505,8 +508,6 @@ bars("barValue", [...DATA].sort((a,b) => b.ppd - a.ppd).map(d => ({ d, v: d.ppd 
       title: "Stealth preview released 20 Aug 2026 — no Intelligence Index, and free preview pricing is not a real rate" },
     { cells: ["Hunyuan 3 (Hy3)", "Tencent", "25", "0.11", "0.14", "0.58", "227.3", "—", "256K"],
       title: "Re-scored 26→25 on AA's Index v4.3.2 (live page, 25 Sept) — below the chart's Index floor of 26; prices unchanged at $0.14/$0.58 ($0.11 blended)" },
-    { cells: ["Gemini 4 Carbon", "Google", "59*", "—", "$4.00", "$20.00", "—", "—", "1M"],
-      title: "Released 28 Oct 2026. AA scores it 59 on Intelligence Index v5.0 ($4/$20, $2.94 blended, 95% cache discount), but this chart is on v4.3.2 and mixing Index versions is not allowed. Left blank until the chart is rebased to v5. Access is limited to select cyber defenders; Google's $2/$10 intro rate is not what AA lists." },
     { cells: ["Muse Wonder Full", "Meta", "56", "—", "—", "—", "—", "—", "—"],
       title: "Released 12 Oct 2026. AA scores it 56, but Meta serves it only to Muse Code subscribers, not through the API. A subscription has no per-token price, so it is unplottable." },
     { cells: ["LongCat-2.5-Preview", "Meituan", "—", "—", "$0.30*", "$1.20*", "—", "—", "1M"],
