@@ -2,7 +2,7 @@
 
 **Repo:** https://github.com/sonnylazuardi/model-value-frontier
 **Live URL:** https://vps.sonnylab.com/model-value-2026-07.html
-**Last updated:** 10 October 2026
+**Last updated:** 6 November 2026 (Index v5.0.1)
 **File in this repo:** `model-value-2026-07.html` (do NOT rename — the live URL depends on it)
 
 You are an AI agent on a **different machine** with **no access** to the serving box.
@@ -41,8 +41,9 @@ the *only* capability score run identically across every vendor. Never mix vendo
 benchmarks (SWE-bench, AIME, LiveCodeBench…): labs report them inconsistently and
 third-party reproductions contradict each other. Mixing produces a fabricated ranking.
 
-> The Index itself gets revised by AA (v4.1.1 → v4.2 → v4.3 within weeks in
-> Aug–Sept 2026, each rebasing absolute scores). The chart always tracks **one**
+> The Index itself gets revised by AA (v4.1.1 → v4.2 → v4.3 → v5.0 → v5.0.1 between
+> Aug and Nov 2026, each rebasing absolute scores — v5 moved most models by 5–15 points
+> and left ~25 older models with no score at all). The chart always tracks **one**
 > Index version throughout — check the Sources line for the current one, and
 > never mix versions within the chart.
 
@@ -98,7 +99,7 @@ Never invent numbers. In particular:
    - Keep the array roughly sorted by Index desc for readability (code sorts
      independently **except** for stable-sort ties — order matters there).
    - `elo:null` renders as an em dash (Arena Elo is sparse — only set it when known).
-3. **Check axis domains still fit** (scatter IIFE):
+3. **Check axis domains still fit** (current: x 0.04–11 log, y 15–63; plot floor Index 20) (scatter IIFE):
    - `x0`/`x1` are `Math.log10(...)` bounds — widen if a blend falls outside,
      and add a matching tick to the tick array.
    - `y0`/`y1` likewise — widen if an Index exceeds them or a label clips, and
@@ -205,49 +206,56 @@ side's changes, and even sequential full-block rewrites race. Protocol:
 
 ---
 
-## 6. Current dataset (49 plotted, Index v4.3.2, as of 10 Oct 2026)
+## 6. Current dataset (34 plotted, Index v5.0.1, as of 6 Nov 2026)
 
-> The `DATA` array in `model-value-2026-07.html` is the source of truth. The table below is a 12 Sept snapshot and most rows are stale. Regenerate from `DATA` (section 4) rather than trusting it.
-
-| Model | Maker | Index | Blended $/1M | In | Out | Pts/$ | Frontier |
+| Model | Maker | Index (v5.0.1) | Blended $/1M | In | Out | Pts/$ | Frontier |
 |---|---|---|---|---|---|---|---|
-| Claude Fable 5.1 | Anthropic | 53 | 7.17 | 10.00 | 50.00 | 7.4 | YES |
-| GPT-6 Astra | OpenAI | 53 | 7.70 | 10.00 | 50.00 | 6.9 | |
-| Claude Opus 5 | Anthropic | 51 | 3.85 | 5.00 | 25.00 | 13.2 | YES |
-| Claude Fable 5 | Anthropic | 50 | 7.70 | 10.00 | 50.00 | 6.5 | |
-| GPT-5.6 Sol | OpenAI | 47 | 3.08 | 4.00 | 20.00 | 15.3 | YES |
-| Muse Spark 1.3 | Meta | 45 | 0.78 | 1.25 | 4.25 | 57.7 | YES |
-| GLM-5.3 | Z.ai | 45 | 0.90 | 1.40 | 4.40 | 50.0 | |
-| Grok 4.6 | xAI | 44 | 1.35 | 2.00 | 6.00 | 32.6 | |
-| Kimi K3 | Moonshot | 44 | 2.31 | 3.00 | 15.00 | 19.0 | |
-| GLM-5.3 Flash | Z.ai | 42 | 0.10 | 0.15 | 0.50 | 420.0 | YES |
-| GPT-5.6 Terra | OpenAI | 42 | 1.74 | 2.00 | 12.00 | 24.1 | |
-| Gemini 3.8 Flash | Google | 41 | 0.58 | 0.75 | 3.75 | 70.7 | |
-| Qwen 3.8 Flash Next | Alibaba | 40 | 0.09 | 0.15 | 0.47 | 444.4 | YES |
-| DeepSeek V4.1 Flash | DeepSeek | 40 | 0.18 | 0.30 | 1.20 | 222.2 | |
-| Muse Spark 1.2 | Meta | 40 | 0.78 | 1.25 | 4.25 | 51.3 | |
-| Qwen 3.8 Max | Alibaba | 40 | 1.18 | 2.00 | 6.00 | 33.9 | |
-| Gemini 3.7 Flash | Google | 39 | 0.58 | 0.75 | 3.75 | 67.2 | |
-| Grok 4.5 | xAI | 39 | 1.21 | 2.00 | 6.00 | 32.2 | |
-| GPT-5.6 Luna | OpenAI | 38 | 0.17 | 0.20 | 1.20 | 223.5 | |
-| Claude Sonnet 5 | Anthropic | 38 | 1.54 | 2.00 | 10.00 | 24.7 | |
-| Agnes 3.0 Flash | Sapiens AI | 36 | 0.03 | 0.05 | 0.15 | 1200.0 | YES |
-| DeepSeek V4 Pro 0813 | DeepSeek | 36 | 0.69 | 1.32 | 3.96 | 52.2 | |
-| Agnes 2.5 Pro Beta | Sapiens AI | 35 | 0.06 | 0.10 | 0.30 | 583.3 | YES* |
-| DeepSeek V4 Flash Vision | DeepSeek | 35 | 0.23 | 0.44 | 1.32 | 152.2 | |
-| Qwen 3.8 27B (xhigh) | Alibaba | 34 | 0.43 | 0.50 | 3.00 | 79.1 | |
-| Gemini 3.6 Flash | Google | 34 | 0.63 | 0.75 | 3.75 | 54.0 | |
-| Muse Spark 1.1 | Meta | 34 | 0.78 | 1.25 | 4.25 | 55.1 | |
-| GLM-5.2 | Z.ai | 34 | 0.90 | 1.40 | 4.40 | 37.8 | |
-| MiniMax M3 | MiniMax | 30 | 0.22 | 0.30 | 1.20 | 136.4 | |
-| Hunyuan 3 (Hy3) | Tencent | 26 | 0.11 | 0.14 | 0.55 | 300.0 | |
-| MiMo-V2.5-Pro | Xiaomi | 26 | 0.18 | 0.435 | 0.87 | 144.4 | |
+| Gemini 4 Carbon | Google | 60 | 2.94 | 4 | 20 | 20.4 | YES |
+| Claude Opus 5.5 | Anthropic | 59 | 2.94 | 4 | 20 | 20.1 |  |
+| GPT-6 Astra | OpenAI | 57 | 7.70 | 10 | 50 | 7.4 |  |
+| Claude Sonnet 5.5 | Anthropic | 55 | 1.47 | 2 | 10 | 37.4 | YES |
+| GPT-6.1 Sol | OpenAI | 55 | 1.47 | 2 | 10 | 37.4 |  |
+| GPT-6.1 Terra | OpenAI | 51 | 0.73 | 1 | 5 | 69.9 | YES |
+| Gemini 4 Argon | Google | 50 | 2.94 | 4 | 20 | 17.0 |  |
+| Claude Fable 5.1 | Anthropic | 49 | 7.17 | 10 | 50 | 6.8 |  |
+| Kimi K3.1 Pro | Moonshot | 46 | 1.54 | 2 | 10 | 29.9 |  |
+| GPT-6 Sol | OpenAI | 44 | 1.54 | 2 | 10 | 28.6 |  |
+| Muse Wonder | Meta | 44 | 2.94 | 4 | 20 | 15.0 |  |
+| Claude Opus 5 | Anthropic | 44 | 3.85 | 5 | 25 | 11.4 |  |
+| Muse Spark 1.3 | Meta | 37 | 0.78 | 1.25 | 4.25 | 47.4 |  |
+| Claude Haiku 5.5 | Anthropic | 36 | 0.08 | 0.1 | 0.5 | 450.0 | YES |
+| Tencent Hy4 | Tencent | 35 | 0.45 | 0.834 | 2.501 | 77.8 |  |
+| Grok 4.7 | xAI | 35 | 1.35 | 2 | 6 | 25.9 |  |
+| Qwen 3.8 Max | Alibaba | 34 | 1.18 | 2 | 6 | 28.8 |  |
+| DeepSeek V4.1 Flash 1017 | DeepSeek | 33 | 0.18 | 0.3 | 1.2 | 183.3 |  |
+| GLM-5.3 | Z.ai | 32 | 0.90 | 1.4 | 4.4 | 35.6 |  |
+| GPT-5.6 Terra | OpenAI | 32 | 1.74 | 2 | 12 | 18.4 |  |
+| Inkling 2 Small | Thinking Machines | 31 | 0.18 | 0.3 | 1 | 172.2 |  |
+| Gemini 3.8 Flash | Google | 31 | 0.58 | 0.75 | 3.75 | 53.4 |  |
+| MiMo-V2.6-Pro | Xiaomi | 30 | 0.18 | 0.435 | 0.87 | 166.7 |  |
+| Ling 3.1 Flash 1019 | InclusionAI | 30 | 0.19 | 0.3 | 0.9 | 157.9 |  |
+| MiniMax-M3.1-Flash | MiniMax | 29 | 0.10 | 0.15 | 0.6 | 290.0 |  |
+| Step 5 Preview | StepFun | 29 | 0.54 | 1 | 2.7 | 53.7 |  |
+| GPT-6 Luna | OpenAI | 28 | 0.08 | 0.1 | 0.5 | 350.0 |  |
+| GLM-5.3 Flash | Z.ai | 28 | 0.10 | 0.15 | 0.5 | 280.0 |  |
+| MiMo-V2.6-Flash | Xiaomi | 27 | 0.06 | 0.14 | 0.28 | 450.0 | YES |
+| Mistral Large 4 | Mistral | 26 | 0.40 | 0.7 | 2.1 | 65.0 |  |
+| Muse Spark Open | Meta | 25 | 0.78 | 1.25 | 4.25 | 32.1 |  |
+| GPT-5.6 Luna | OpenAI | 24 | 0.17 | 0.2 | 1.2 | 141.2 |  |
+| DeepSeek V4 Pro 0813 | DeepSeek | 23 | 0.69 | 1.32 | 3.96 | 33.3 |  |
+| Qwen 3.8 27B | Alibaba | 20 | 0.47 | 0.5 | 3 | 42.6 |  |
 
-*estimate tag survives only on the Agnes pair.
+**Frontier (5, v5.0.1):** MiMo-V2.6-Flash ($0.06) → Claude Haiku 5.5 ($0.08) → GPT-6.1 Terra ($0.73) → Claude Sonnet 5.5 ($1.47) → Gemini 4 Carbon ($2.94).
 
-**Frontier (8, v4.3.2, 10 Oct 2026):** Agnes 3.0 Flash ($0.03) → MiMo-V2.6-Flash ($0.06) →
-Claude Haiku 5.5 ($0.08) → MiMo-V2.6-Pro ($0.18) → Muse Spark 1.3 ($0.78) →
-Gemini 4 Argon ($1.47) → Claude Sonnet 5.5 ($1.54) → Claude Opus 5.5 ($2.94).
+**Rebase history:** the chart was rebased from Index v4.3.2 to **v5.0.1 on 6 Nov 2026**
+(AA launched v5.0 on 27 Oct, v5.0.1 on 3 Nov). 25 models whose AA pages now show no
+score are explicit blank table rows with their last v4.3.2 figure noted (never
+carried onto the chart). The plot floor on the v5 scale is **Index 20** (it was 26 on
+v4.3.2); Beam 1.0 (18), MiniMax M3 (19) and Nemotron 3.5 Super VL (14) are scored and
+priced but below it. Every other unplottable model is listed in the table's blank
+rows, each with its reason in the row tooltip.
+
+> The blank rows in the HTML table are the source of truth for unplottable models; the list below is the older v4-era set.
 
 ### Deliberately unplottable (blank table rows — do not invent numbers)
 
