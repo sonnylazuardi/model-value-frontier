@@ -2,7 +2,7 @@
 
 **Repo:** https://github.com/sonnylazuardi/model-value-frontier
 **Live URL:** https://vps.sonnylab.com/model-value-2026-07.html
-**Last updated:** 6 November 2026 (Index v5.0.1)
+**Last updated:** 10 November 2026 (Index v5.0.1)
 **File in this repo:** `model-value-2026-07.html` (do NOT rename — the live URL depends on it)
 
 You are an AI agent on a **different machine** with **no access** to the serving box.
@@ -99,7 +99,7 @@ Never invent numbers. In particular:
    - Keep the array roughly sorted by Index desc for readability (code sorts
      independently **except** for stable-sort ties — order matters there).
    - `elo:null` renders as an em dash (Arena Elo is sparse — only set it when known).
-3. **Check axis domains still fit** (current: x 0.04–11 log, y 15–63; plot floor Index 20) (scatter IIFE):
+3. **Check axis domains still fit** (current: x 0.04–11 log, y 15–68; plot floor Index 20) (scatter IIFE):
    - `x0`/`x1` are `Math.log10(...)` bounds — widen if a blend falls outside,
      and add a matching tick to the tick array.
    - `y0`/`y1` likewise — widen if an Index exceeds them or a label clips, and
@@ -206,46 +206,49 @@ side's changes, and even sequential full-block rewrites race. Protocol:
 
 ---
 
-## 6. Current dataset (34 plotted, Index v5.0.1, as of 6 Nov 2026)
+## 6. Current dataset (37 plotted, Index v5.0.1, as of 10 Nov 2026)
 
 | Model | Maker | Index (v5.0.1) | Blended $/1M | In | Out | Pts/$ | Frontier |
 |---|---|---|---|---|---|---|---|
-| Gemini 4 Carbon | Google | 60 | 2.94 | 4 | 20 | 20.4 | YES |
-| Claude Opus 5.5 | Anthropic | 59 | 2.94 | 4 | 20 | 20.1 |  |
-| GPT-6 Astra | OpenAI | 57 | 7.70 | 10 | 50 | 7.4 |  |
-| Claude Sonnet 5.5 | Anthropic | 55 | 1.47 | 2 | 10 | 37.4 | YES |
-| GPT-6.1 Sol | OpenAI | 55 | 1.47 | 2 | 10 | 37.4 |  |
-| GPT-6.1 Terra | OpenAI | 51 | 0.73 | 1 | 5 | 69.9 | YES |
-| Gemini 4 Argon | Google | 50 | 2.94 | 4 | 20 | 17.0 |  |
-| Claude Fable 5.1 | Anthropic | 49 | 7.17 | 10 | 50 | 6.8 |  |
-| Kimi K3.1 Pro | Moonshot | 46 | 1.54 | 2 | 10 | 29.9 |  |
-| GPT-6 Sol | OpenAI | 44 | 1.54 | 2 | 10 | 28.6 |  |
-| Muse Wonder | Meta | 44 | 2.94 | 4 | 20 | 15.0 |  |
-| Claude Opus 5 | Anthropic | 44 | 3.85 | 5 | 25 | 11.4 |  |
-| Muse Spark 1.3 | Meta | 37 | 0.78 | 1.25 | 4.25 | 47.4 |  |
-| Claude Haiku 5.5 | Anthropic | 36 | 0.08 | 0.1 | 0.5 | 450.0 | YES |
-| Tencent Hy4 | Tencent | 35 | 0.45 | 0.834 | 2.501 | 77.8 |  |
-| Grok 4.7 | xAI | 35 | 1.35 | 2 | 6 | 25.9 |  |
-| Qwen 3.8 Max | Alibaba | 34 | 1.18 | 2 | 6 | 28.8 |  |
-| DeepSeek V4.1 Flash 1017 | DeepSeek | 33 | 0.18 | 0.3 | 1.2 | 183.3 |  |
-| GLM-5.3 | Z.ai | 32 | 0.90 | 1.4 | 4.4 | 35.6 |  |
-| GPT-5.6 Terra | OpenAI | 32 | 1.74 | 2 | 12 | 18.4 |  |
-| Inkling 2 Small | Thinking Machines | 31 | 0.18 | 0.3 | 1 | 172.2 |  |
-| Gemini 3.8 Flash | Google | 31 | 0.58 | 0.75 | 3.75 | 53.4 |  |
-| MiMo-V2.6-Pro | Xiaomi | 30 | 0.18 | 0.435 | 0.87 | 166.7 |  |
-| Ling 3.1 Flash 1019 | InclusionAI | 30 | 0.19 | 0.3 | 0.9 | 157.9 |  |
-| MiniMax-M3.1-Flash | MiniMax | 29 | 0.10 | 0.15 | 0.6 | 290.0 |  |
-| Step 5 Preview | StepFun | 29 | 0.54 | 1 | 2.7 | 53.7 |  |
-| GPT-6 Luna | OpenAI | 28 | 0.08 | 0.1 | 0.5 | 350.0 |  |
-| GLM-5.3 Flash | Z.ai | 28 | 0.10 | 0.15 | 0.5 | 280.0 |  |
-| MiMo-V2.6-Flash | Xiaomi | 27 | 0.06 | 0.14 | 0.28 | 450.0 | YES |
-| Mistral Large 4 | Mistral | 26 | 0.40 | 0.7 | 2.1 | 65.0 |  |
-| Muse Spark Open | Meta | 25 | 0.78 | 1.25 | 4.25 | 32.1 |  |
-| GPT-5.6 Luna | OpenAI | 24 | 0.17 | 0.2 | 1.2 | 141.2 |  |
-| DeepSeek V4 Pro 0813 | DeepSeek | 23 | 0.69 | 1.32 | 3.96 | 33.3 |  |
-| Qwen 3.8 27B | Alibaba | 20 | 0.47 | 0.5 | 3 | 42.6 |  |
+| Claude Fable 5.2 | Anthropic | 65 | 5.740 | 8 | 40 | 11.3 | YES |
+| Gemini 4 Carbon | Google | 60 | 2.940 | 4 | 20 | 20.4 | YES |
+| Claude Opus 5.5 | Anthropic | 59 | 2.940 | 4 | 20 | 20.1 |  |
+| GPT-6 Astra | OpenAI | 57 | 7.700 | 10 | 50 | 7.4 |  |
+| Claude Sonnet 5.5 | Anthropic | 55 | 1.470 | 2 | 10 | 37.4 | YES |
+| GPT-6.1 Sol | OpenAI | 55 | 1.470 | 2 | 10 | 37.4 |  |
+| GPT-6.1 Terra | OpenAI | 51 | 0.730 | 1 | 5 | 69.9 | YES |
+| Gemini 4 Argon | Google | 50 | 2.940 | 4 | 20 | 17.0 |  |
+| Claude Fable 5.1 | Anthropic | 49 | 7.170 | 10 | 50 | 6.8 |  |
+| Kimi K3.1 Pro | Moonshot | 46 | 1.540 | 2 | 10 | 29.9 |  |
+| GPT-6 Sol | OpenAI | 44 | 1.540 | 2 | 10 | 28.6 |  |
+| Muse Wonder | Meta | 44 | 2.940 | 4 | 20 | 15.0 |  |
+| Claude Opus 5 | Anthropic | 44 | 3.850 | 5 | 25 | 11.4 |  |
+| Muse Spark 1.3 | Meta | 37 | 0.780 | 1.25 | 4.25 | 47.4 |  |
+| Muse Ember | Meta | 36 | 0.073 | 0.1 | 0.5 | 493.2 | YES |
+| Claude Haiku 5.5 | Anthropic | 36 | 0.080 | 0.1 | 0.5 | 450.0 |  |
+| Tencent Hy4 | Tencent | 35 | 0.450 | 0.834 | 2.501 | 77.8 |  |
+| Grok 4.7 | xAI | 35 | 1.350 | 2 | 6 | 25.9 |  |
+| Qwen 3.8 Max | Alibaba | 34 | 1.180 | 2 | 6 | 28.8 |  |
+| DeepSeek V4.1 Flash 1017 | DeepSeek | 33 | 0.180 | 0.3 | 1.2 | 183.3 |  |
+| GLM-5.3 | Z.ai | 32 | 0.900 | 1.4 | 4.4 | 35.6 |  |
+| GPT-5.6 Terra | OpenAI | 32 | 1.740 | 2 | 12 | 18.4 |  |
+| Inkling 2 Small | Thinking Machines | 31 | 0.180 | 0.3 | 1 | 172.2 |  |
+| Gemini 3.8 Flash | Google | 31 | 0.580 | 0.75 | 3.75 | 53.4 |  |
+| MiMo-V2.6-Pro | Xiaomi | 30 | 0.180 | 0.435 | 0.87 | 166.7 |  |
+| Ling 3.1 Flash 1019 | InclusionAI | 30 | 0.190 | 0.3 | 0.9 | 157.9 |  |
+| MiniMax-M3.1-Flash | MiniMax | 29 | 0.100 | 0.15 | 0.6 | 290.0 |  |
+| Step 5 Preview | StepFun | 29 | 0.540 | 1 | 2.7 | 53.7 |  |
+| GPT-6 Luna | OpenAI | 28 | 0.080 | 0.1 | 0.5 | 350.0 |  |
+| GLM-5.3 Flash | Z.ai | 28 | 0.100 | 0.15 | 0.5 | 280.0 |  |
+| MiMo-V2.6-Flash | Xiaomi | 27 | 0.060 | 0.14 | 0.28 | 450.0 | YES |
+| Mistral Large 4 | Mistral | 26 | 0.400 | 0.7 | 2.1 | 65.0 |  |
+| Muse Spark Open | Meta | 25 | 0.780 | 1.25 | 4.25 | 32.1 |  |
+| Agnes 2.5 Pro Theta | Sapiens AI | 24 | 0.057 | 0.1 | 0.3 | 421.1 | YES |
+| GPT-5.6 Luna | OpenAI | 24 | 0.170 | 0.2 | 1.2 | 141.2 |  |
+| DeepSeek V4 Pro 0813 | DeepSeek | 23 | 0.690 | 1.32 | 3.96 | 33.3 |  |
+| Qwen 3.8 27B | Alibaba | 20 | 0.470 | 0.5 | 3 | 42.6 |  |
 
-**Frontier (5, v5.0.1):** MiMo-V2.6-Flash ($0.06) → Claude Haiku 5.5 ($0.08) → GPT-6.1 Terra ($0.73) → Claude Sonnet 5.5 ($1.47) → Gemini 4 Carbon ($2.94).
+**Frontier (7, v5.0.1):** Agnes 2.5 Pro Theta ($0.057) → MiMo-V2.6-Flash ($0.06) → Muse Ember ($0.073) → GPT-6.1 Terra ($0.73) → Claude Sonnet 5.5 ($1.47) → Gemini 4 Carbon ($2.94) → Claude Fable 5.2 ($5.74).
 
 **Rebase history:** the chart was rebased from Index v4.3.2 to **v5.0.1 on 6 Nov 2026**
 (AA launched v5.0 on 27 Oct, v5.0.1 on 3 Nov). 25 models whose AA pages now show no
