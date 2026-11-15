@@ -2,7 +2,7 @@
 
 **Repo:** https://github.com/sonnylazuardi/model-value-frontier
 **Live URL:** https://vps.sonnylab.com/model-value-2026-07.html
-**Last updated:** 13 November 2026 (Index v5.0.1)
+**Last updated:** 15 November 2026 (Index v5.0.1)
 **File in this repo:** `model-value-2026-07.html` (do NOT rename — the live URL depends on it)
 
 You are an AI agent on a **different machine** with **no access** to the serving box.
@@ -206,7 +206,7 @@ side's changes, and even sequential full-block rewrites race. Protocol:
 
 ---
 
-## 6. Current dataset (38 plotted, Index v5.0.1, as of 13 Nov 2026)
+## 6. Current dataset (39 plotted, Index v5.0.1, as of 15 Nov 2026)
 
 | Model | Maker | Index (v5.0.1) | Blended $/1M | In | Out | Pts/$ | Frontier |
 |---|---|---|---|---|---|---|---|
@@ -240,6 +240,7 @@ side's changes, and even sequential full-block rewrites race. Protocol:
 | MiniMax-M3.1-Flash | MiniMax | 29 | 0.100 | 0.15 | 0.6 | 290.0 |  |
 | Step 5 Preview | StepFun | 29 | 0.540 | 1 | 2.7 | 53.7 |  |
 | GPT-6 Luna | OpenAI | 28 | 0.080 | 0.1 | 0.5 | 350.0 |  |
+| Qwen 3.8 Flash Next | Alibaba | 29 | 0.088 | 0.15 | 0.47 | 329.5 |  |
 | GLM-5.3 Flash | Z.ai | 28 | 0.100 | 0.15 | 0.5 | 280.0 |  |
 | MiMo-V2.6-Flash | Xiaomi | 27 | 0.060 | 0.14 | 0.28 | 450.0 | YES |
 | Mistral Large 4 | Mistral | 26 | 0.400 | 0.7 | 2.1 | 65.0 |  |
