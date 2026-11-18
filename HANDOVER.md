@@ -2,7 +2,7 @@
 
 **Repo:** https://github.com/sonnylazuardi/model-value-frontier
 **Live URL:** https://vps.sonnylab.com/model-value-2026-07.html
-**Last updated:** 18 November 2026 (Index v5.0.1)
+**Last updated:** 19 November 2026 (Index v5.0.1)
 **File in this repo:** `model-value-2026-07.html` (do NOT rename — the live URL depends on it)
 
 You are an AI agent on a **different machine** with **no access** to the serving box.
@@ -206,12 +206,13 @@ side's changes, and even sequential full-block rewrites race. Protocol:
 
 ---
 
-## 6. Current dataset (42 plotted, Index v5.0.1, as of 18 Nov 2026)
+## 6. Current dataset (43 plotted, Index v5.0.1, as of 19 Nov 2026)
 
 | Model | Maker | Index (v5.0.1) | Blended $/1M | In | Out | Pts/$ | Frontier |
 |---|---|---|---|---|---|---|---|
 | Claude Fable 5.2 | Anthropic | 65 | 5.740 | 8 | 40 | 11.3 | YES |
-| Gemini 4 Carbon | Google | 60 | 2.940 | 4 | 20 | 20.4 | YES |
+| Gemini 4 Neon | Google | 61 | 2.210 | 3 | 15 | 27.6 | YES |
+| Gemini 4 Carbon | Google | 60 | 1.540 | 2 | 10 | 39.0 | YES |
 | Claude Opus 5.5 | Anthropic | 59 | 2.940 | 4 | 20 | 20.1 |  |
 | GPT-6.2 Astra | OpenAI | 62 | 5.880 | 8 | 40 | 10.5 |  |
 | GPT-6 Astra | OpenAI | 57 | 7.700 | 10 | 50 | 7.4 |  |
@@ -220,7 +221,7 @@ side's changes, and even sequential full-block rewrites race. Protocol:
 | GPT-6.1 Sol | OpenAI | 55 | 1.470 | 2 | 10 | 37.4 |  |
 | Gemini 4 Hydrogen | Google | 54 | 1.100 | 1.5 | 7.5 | 49.1 | YES |
 | GPT-6.1 Terra | OpenAI | 51 | 0.730 | 1 | 5 | 69.9 | YES |
-| Gemini 4 Argon | Google | 50 | 2.940 | 4 | 20 | 17.0 |  |
+| Gemini 4 Argon | Google | 50 | 1.470 | 2 | 10 | 34.0 |  |
 | Claude Fable 5.1 | Anthropic | 49 | 7.170 | 10 | 50 | 6.8 |  |
 | Kimi K3.1 Pro | Moonshot | 46 | 1.540 | 2 | 10 | 29.9 |  |
 | GPT-6 Sol | OpenAI | 44 | 1.540 | 2 | 10 | 28.6 |  |
@@ -253,7 +254,7 @@ side's changes, and even sequential full-block rewrites race. Protocol:
 | DeepSeek V4 Pro 0813 | DeepSeek | 23 | 0.690 | 1.32 | 3.96 | 33.3 |  |
 | Qwen 3.8 27B | Alibaba | 20 | 0.470 | 0.5 | 3 | 42.6 |  |
 
-**Frontier (8, v5.0.1):** Agnes 2.5 Pro Theta ($0.057) → MiMo-V2.6-Flash ($0.06) → Muse Ember ($0.073) → GPT-6.1 Terra ($0.73) → Gemini 4 Hydrogen ($1.10) → GPT-6.2 Sol ($1.47) → Gemini 4 Carbon ($2.94) → Claude Fable 5.2 ($5.74).
+**Frontier (9, v5.0.1):** Agnes 2.5 Pro Theta ($0.057) → MiMo-V2.6-Flash ($0.06) → Muse Ember ($0.073) → GPT-6.1 Terra ($0.73) → Gemini 4 Hydrogen ($1.10) → GPT-6.2 Sol ($1.47) → Gemini 4 Carbon ($1.54) → Gemini 4 Neon ($2.21) → Claude Fable 5.2 ($5.74).
 
 **Rebase history:** the chart was rebased from Index v4.3.2 to **v5.0.1 on 6 Nov 2026**
 (AA launched v5.0 on 27 Oct, v5.0.1 on 3 Nov). 25 models whose AA pages now show no
